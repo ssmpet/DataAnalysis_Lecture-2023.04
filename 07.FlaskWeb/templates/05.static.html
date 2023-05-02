@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static resource</title>
+    <!-- <script src="../static/js/hello.js"></script> -->
+    <script src="{{url_for('static', filename='js/05.hello.js')}}">
+
+    </script>
+</head>
+<body style="margin: 40px;">
+    <input type="button" value="Say Hello" onclick="sayHello()">
+    <br><br>
+    <img src="{{url_for('static', filename='img/dog1.jpg', q=mtime)}}" height="400" alt="개">
+</body>
+</html>
