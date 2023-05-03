@@ -1,0 +1,22 @@
+{% extends "13.bootstrap.html" %}
+{% block title %}수원 HOT PLACE{% endblock %}
+{% block subtitle %} 수원 HOT PLACE <i class="fas fa-home"></i>{% endblock %}
+
+{% block content %}
+
+    <div class="col-3"></div>
+    <div class="col-6 container-fluid text-center">
+
+        <form action="/hotplaces" method="POST">
+            <table>
+                <tr>
+                    <td><input type="text" class="form-control" name="place1" style="width:150px;"></td>
+                    <td><input type="text" class="form-control" name="place2" style="width:150px;"></td>
+                    <td><input type="text" class="form-control" name="place3" style="width:150px;"></td>
+                    <td><input type="submit" class="btn btn-primary" value="제출"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="col-3"></div>
+{% endblock %}

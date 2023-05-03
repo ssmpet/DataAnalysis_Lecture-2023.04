@@ -1,0 +1,22 @@
+
+{% extends "13.bootstrap.html" %}
+{% block title %}수원 HOT PLACES 검색 결과{% endblock %}
+{% block subtitle %} 수원 HOT PLACES 검색 결과 <i class="fas fa-home"></i>{% endblock %}
+
+
+{% block content %}
+
+    <div class="col-1"></div>
+    <div class="col-10 container-fluid text-center">
+        <table>
+            <tr>
+                <td><iframe src="{{url_for('static', filename='img/hotpalces.html')}}" frameborder="1" width="800" height="500"></iframe></td>
+            </tr>
+            <tr>
+                <td><button onclick="location.href='/hotplaces'" class="btn btn-primary" >재실행</button></td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-1"></div>
+
+{% endblock %}

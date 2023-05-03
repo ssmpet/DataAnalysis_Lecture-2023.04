@@ -1,16 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>산점도 결과</title>
-</head>
-<body style="margin: 40px;">
-    <h3>산점도 결과</h3>
-    <hr>
-    <img src="{{url_for('static', filename='img/scatter.png')}}" alt="산점도 결과">
-    <br><br>
-    <button onclick="location.href='/scatter'">재실행</button>
-</body>
-</html>
+
+{% extends "13.bootstrap.html" %}
+{% block title %}산점도 결과{% endblock %}
+{% block subtitle %} 산점도 결과 <i class="fas fa-home"></i>{% endblock %}
+
+{% block content %}
+
+    <div class="col-3"></div>
+    <div class="col-6 container-fluid text-center">
+
+        <table>
+            <tr>
+                <td>
+                <img src="{{url_for('static', filename='img/scatter.png')}}" class="rounded" style="width:500px; height:400px;" alt="산점도 결과">
+                <br><br>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">
+                <button onclick="location.href='/scatter'" class="btn btn-primary">재실행</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-3"></div>
+
+{% endblock %}

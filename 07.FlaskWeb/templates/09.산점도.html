@@ -1,43 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>산점도</title>
-    <style>
-        td {text-align: center;}
-    </style>
-</head>
-<body style="margin: 40px;">
-    <h3>산점도</h3>
-    <hr>
-    <form action="/scatter" method="POST">
-        <table>
-            <tr>
-                <td>점의 갯수</td>
-                <td><input type="text" name="num"></td>
-            </tr>
-            <tr>
-                <td>X의 평균</td>
-                <td><input type="text" name="mean"></td>
-            </tr>
-            <tr>
-                <td>X의 표준편차</td>
-                <td><input type="text" name="std"></td>
-            </tr>
-            <tr>
-                <td>Y의 최소</td>
-                <td><input type="text" name="min"></td>
-            </tr>
-            <tr>
-                <td>Y의 최대</td>
-                <td><input type="text" name="max"></td>
-            </tr>
-            <tr>
-                <td colspan="2"><input type="submit" value="확인"></td>
-            </tr>
-        </table>
-    </form>
-</body>
-</html>
+{% extends "13.bootstrap.html" %}
+{% block title %}산점도{% endblock %}
+{% block subtitle %} 산점도 {% endblock %}
+
+
+{% block content %}
+
+    <div class="col-3"></div>
+    <div class="col-6 container-fluid text-center">
+        <form action="/scatter" method="POST">
+            <table class="table  table-borderless">
+                <tr>
+                    <td>점의 갯수</td>
+                    <td><input type="text" class="form-control" name="num"></td>
+                </tr>
+                <tr>
+                    <td>X의 평균</td>
+                    <td><input type="text" class="form-control" name="mean"></td>
+                </tr>
+                <tr>
+                    <td>X의 표준편차</td>
+                    <td><input type="text" class="form-control"  name="std"></td>
+                </tr>
+                <tr>
+                    <td>Y의 최소</td>
+                    <td><input type="text" class="form-control" name="min"></td>
+                </tr>
+                <tr>
+                    <td>Y의 최대</td>
+                    <td><input type="text" class="form-control" name="max"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" class="btn btn-primary" value="확인"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div class="col-3"></div>
+    
+{% endblock %}

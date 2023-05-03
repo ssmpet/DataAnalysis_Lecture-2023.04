@@ -1,0 +1,31 @@
+{% extends "13.bootstrap.html" %}
+{% block title %}인터파크 베스트셀러{% endblock %}
+{% block subtitle %} 인터파크 베스트셀러 <i class="fas fa-home"></i>{% endblock %}
+
+
+{% block content %}
+
+    <table class="table">
+        <thead class="table-success">
+            <tr>
+                <th width="5%">순위</th>
+                <th></th>
+                <th>제목</th>
+                <th>저자</th>
+                <th>출판사</th>
+                <th width="8%">가격</th>
+            </tr>
+        </thead>
+        {% for book in book_rank %}
+        <tr>
+            <td>{{ book.순위 }}</td>
+            <td><img src="{{ book.이미지 }}" alt="{{ book.제목 }}"></td>
+            <td><a href="{{ book.세부정보 }}" target="_blank">{{ book.제목 }}</a></td>
+            <td>{{ book.저자 }}</td>
+            <td>{{ book.출판사 }}</td>
+            <td class="price">{{ book.판매가 }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+{% endblock %}
