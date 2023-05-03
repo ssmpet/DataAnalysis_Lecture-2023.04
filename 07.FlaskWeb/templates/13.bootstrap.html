@@ -28,26 +28,27 @@
 <body>
     <div class="container-fluid p-3 bg-primary text-white text-center">
         <h1>My Bootstrap Page</h1>
-        <p>{% block subtitle %}{% endblock %}</p>
-    </div>
-
-    <nav class="navbar navbar-expand-sm naver-light">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse justify-content-center" id="myNavbar" >
-                <ul class="nav nav-tabs ">
-                    <li class="nav-item"><a href="/main" class="nav-link {% if order==0 %}active{%endif%}">Home</a></li>
-                    <li class="nav-item"><a href="/scatter" class="nav-link {% if order==1 %}active{%endif%}" >산점도</a></li>
-                    <li class="nav-item"><a href="/hotplaces" class="nav-link {% if order==2 %}active{%endif%}">Hot Place</a></li>
-                    <li class="nav-item"><a href="/interparkbest" class="nav-link {% if order==3 %}active{%endif%}">Interpark</a></li>
-                    <li class="nav-item"><a href="/progress" class="nav-link {% if order==4 %}active{%endif%}">Progress Bar</a></li>
-                </ul>
+        <nav class="navbar navbar-expand-sm naver-light">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse justify-content-center" id="myNavbar" >
+                    <ul class="nav">
+                        <li class="nav-item"><a href="/main" class="nav-link {% if order==0 %}active{%endif%}"><span style="color: #fff">{% if order==0 %}<strong>{%endif%}Home{% if order==0 %}</strong>{%endif%}</span></a></li>
+                        <li class="nav-item"><a href="/scatter" class="nav-link {% if order==1 %}active{%endif%}" ><span style="color: #fff">{% if order==1 %}<strong>{%endif%}산점도{% if order==1 %}</strong>{%endif%}</span></a></li>
+                        <li class="nav-item"><a href="/hotplaces" class="nav-link {% if order==2 %}active{%endif%}"><span style="color: #fff">{% if order==2 %}<strong>{%endif%}Hot Place{% if order==2 %}</strong>{%endif%}</span></a></li>
+                        <li class="nav-item"><a href="/interparkbest" class="nav-link {% if order==3 %}active{%endif%}"><span style="color: #fff">{% if order==3 %}<strong>{%endif%}Interpark{% if order==3 %}</strong>{%endif%}</span></a></li>
+                        <li class="nav-item"><a href="/progress" class="nav-link {% if order==4 %}active{%endif%}"><span style="color: #fff">{% if order==4 %}<strong>{%endif%}Progress Bar{% if order==4 %}</strong>{%endif%}</span></a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-
+        </nav>
+        
+    </div>
     
-    <div class="container mt-3">
-    {% block content %}{% endblock %}
+    
+    <div class="container mt-3 text-center">
+        <h3>{% block subtitle %}{% endblock %}</h3>
+        <br>
+        {% block content %}{% endblock %}
     </div>
 
     {% block additional_body %}{% endblock %}

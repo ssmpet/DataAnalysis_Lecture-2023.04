@@ -24,9 +24,10 @@ def scatter():
         ymin = int(request.form['min'])
         ymax = int(request.form['max'])
 
-        sub_util.sub_scatter(num, xmean, xstd, ymin, ymax, app)
+        mtime = sub_util.sub_scatter(num, xmean, xstd, ymin, ymax, app)
+        
 
-        return render_template('09.산점도_res.html', order=1)
+        return render_template('09.산점도_res.html', order=1, mtime=mtime)
 
 
 
