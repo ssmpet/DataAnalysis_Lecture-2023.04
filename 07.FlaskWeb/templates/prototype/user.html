@@ -9,7 +9,7 @@
         a:hover p.foodscale img{ transform: scale(1.2); }
         h2 {
             
-            font-size:300%;
+            /* font-size:300%; */
             font-weight:700;
             
             }
@@ -17,16 +17,12 @@
     <script>
 
         function disp(num) {
-            console.log(num)
-            // fname = `{{num}}`
-            fname = `img/number${num}.png`
-            console.log(fname)
-            
-            // img_name = `{{url_for('static', filename="${fname}")}}`
-            
-
+            console.log(num);
+            fname = `{{url_for("static", filename='img/')}}`
+            fname += `number${num}.png`
+        
             $('<img></img>')
-                .attr('src', `{{url_for('static', filename="${fname}")}}`)
+                .attr('src', fname)
                 .attr('width', 18)
                 .attr('id', 'second')
                 .appendTo('#result');
@@ -60,8 +56,6 @@
                 strResult += `<span class="badge rounded-pill bg-warning text-white">${numbers[i]}</span> `;
             strResult += `  보너스  <span class="badge rounded-pill bg-warning text-white">${numbers[6]}</span>`;
 
-            console.log(strResult)
-
             disp(count--);
             let interval = setInterval(function(){
                 hide();
@@ -89,7 +83,7 @@
    <div id="about" class="container-fluid text-center" style="background-color: #ffc107;" >
         <h3 style="margin-top:50px;"> </h3>
         <br>
-        <h2>HWAYOUNG KIM'S 자기소개서</h2>
+        <h2>KIM HWAYOUNG</h2>
         <img src="{{url_for('static', filename='img/myface.jpg')}}" class="mx-auto mt-3 img-fluid rounded-circle" alt="KimHwaYoung" width="250" height="250">
         <br><br>
         <h4>안녕하세요. developer로 공부중인 김화영입니다.<br>
@@ -364,7 +358,8 @@
         </div>
     </div>
 
-    <div id="connect" class="container text-center">
+    <br><br><br><br><br><br>
+    <!-- <div id="connect" class="container text-center">
         <br><br><br><br><br><br>
         <h2><strong>CONNACT</strong></h2>
         <br>
@@ -375,7 +370,7 @@
             <i class="fa-brands fa-github me-2"></i><a href="https://github.com/ssmpet" target="_blank">hwayoung kim github</a>
         </div>
         <br><br><br><br><br><br>
-    </div>
+    </div> -->
     
 
 
