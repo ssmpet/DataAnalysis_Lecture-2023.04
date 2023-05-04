@@ -9,6 +9,7 @@ test.html
 test.js
 test.py
 test.ipynb
+key/
 
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
