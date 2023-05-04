@@ -1,0 +1,30 @@
+{% extends "prototype/base.html" %}
+{% block title %}식신 맛집 찾기{% endblock %}
+{% block weather %} {{ weather | safe() }} {% endblock %}
+{% block additional_head %}
+<style>
+    th { text-align: center; width: 14.28%;}
+    td { height: 120px;}
+</style>
+{% endblock%}
+
+{% block subtitle %} 식신 맛집 찾기 {% endblock %}
+{% block content %}
+<div class="container text-center">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+        <form action="/siksin" method="POST" >
+            <table class="table table-borderless justify-content-center">
+                <tr>
+                    <td><input type="text" class="form-control" name="place"></td>
+                    <td><input type="submit" class="btn btn-primary" value="검색"></td>
+                </tr>
+            </table>
+        </form>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+
+{% endblock %}

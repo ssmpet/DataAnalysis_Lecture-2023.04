@@ -1,0 +1,37 @@
+{% extends "prototype/base.html" %}
+{% block title %}식신 맛집 찾기{% endblock %}
+{% block weather %} {{ weather | safe() }} {% endblock %}
+{% block additional_head %}
+<style>
+    /* th { text-align: center; width: 14.28%;}
+    td { height: 120px;} */
+    .siksin_img { width: 100px; height: 60px;}
+
+</style>
+{% endblock%}
+
+{% block subtitle %} 식신 맛집 찾기 {% endblock %}
+{% block content %}
+<table class="table">
+    <thead class="table-success">
+        <tr>
+            <th></th>
+            <th>가계명</th>
+            <th>평점</th>
+            <th>위치</th>
+            <th>메뉴종류</th>
+        </tr>
+    </thead>
+    {% for siksin in siksins %}
+    <tr>
+        <td><img class="siksin_img" src="{{ siksin.img }}" alt="{{ siksin.title }}"></td>
+        <td>{{ siksin.title }}</td>
+        <td>{{ siksin.score }}</td>
+        <td>{{ siksin.location }}</td>
+        <td>{{ siksin.menu }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+<br><br>
+{% endblock %}
