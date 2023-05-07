@@ -16,25 +16,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/fbb7139956.js" crossorigin="anonymous"></script>
+    
     <script src="{{url_for('static', filename='js/famousSaying.js')}}"></script>
     <style>
         * { font-family: 'Noto Sans KR', sans-serif;}
         a { text-decoration:none;  }
     </style>
     <script>
-        function Get_Weather() {
-          
-            pyodide.loadPackage('python').then(() => {
-                // Run the Python script
-                pyodide.runPython(`
-                with open("/test.py", "r") as f:
-                    exec(f.read())
-                `).then((output) => {
-                console.log(output);
+        $(function(){
+
+            $('#p_weather').on('click', function(){
+                
+                $.getJSON('/get_weather', function(data){
+                    $('.res_weather').html(data);
                 });
             });
-        }
-
+        });
     </script>
     {% block additional_head %}{% endblock%}
 </head>
@@ -128,7 +125,8 @@
 
                     <!-- <i class="fa-solid fa-location-dot me-2"></i> -->
                     <img src="{{url_for('static', filename='img/addr.png')}}" alt="address" height="16" class="me-2">
-                    수원시 장안구 <!--a href="#"--><span class="badge bg-secondary" id="p_weather" onclick="Get_Weather()">날씨</span><!--/a-->
+                    수원시 장안구 <!--a href="#"--><span class="badge bg-secondary" id="p_weather">날씨</span><!--/a-->
+                    <p class="res_weather"></p>
 
                     <!-- <div class="mt-4">
                         <button type="button" class="btn btn-sm btn-outline-primary">Edit Profile</button>

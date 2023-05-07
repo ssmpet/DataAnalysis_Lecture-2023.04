@@ -8,6 +8,7 @@ def index():
 
 @app.route('/hello')
 def hello():
+    # return 'Hello hello'
     return render_template('01.hello.html')
 
 if __name__ == '__main__':

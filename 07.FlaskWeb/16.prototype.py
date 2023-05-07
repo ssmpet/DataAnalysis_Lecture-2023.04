@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request, url_for, jsonify
 from weather_util import get_weather
 import interpark_util, genie_util, siksin_util
 
@@ -53,7 +53,9 @@ def schedule():
     menu = {'ho': 0, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 1}
     return render_template('prototype/schedule.html', menu=menu,  weather=get_weather(app))
 
-
+@app.route('/get_weather')
+def get_test():
+    return jsonify(get_weather(app))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
