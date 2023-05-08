@@ -46,20 +46,19 @@ def siksin():
         return render_template('prototype/siksin.html', menu=menu, weater=get_weather(app), quote=quote, addr=g_addr, weathers=weathers)
     else:
         print('POST')
-        # place = request.values['place']
-        place = request.args.get('place')
+        place = request.values['place']
         print(place)
         siksins = siksin_util.get_siksin_util(place)
-        return siksins        
+        return siksins
         # return render_template('prototype/siksin_res.html', menu=menu, weater=get_weather(app), siksins=siksins, quote=quote, addr=g_addr, weathers=weathers)
 
 @app.route('/siksin2')
 def siksin2():
     
-    print('siksin2')
+    # print('siksin2')
     # place = request.values['place']
     place = request.args.get('place')
-    print(place)
+    # print(place)
     siksins = siksin_util.get_siksin_util(place)
     return siksins        
 
@@ -116,4 +115,4 @@ with app.app_context():
     weathers = ''
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
