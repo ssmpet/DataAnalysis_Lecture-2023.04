@@ -16,23 +16,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/fbb7139956.js" crossorigin="anonymous"></script>
-    
-    <script src="{{url_for('static', filename='js/famousSaying.js')}}"></script>
     <style>
         * { font-family: 'Noto Sans KR', sans-serif;}
         a { text-decoration:none;  }
     </style>
-    <script>
-        $(function(){
 
-            $('#p_weather').on('click', function(){
-                
-                $.getJSON('/get_weather', function(data){
-                    $('.res_weather').html(data);
-                });
-            });
-        });
-    </script>
+    <script src="{{url_for('static', filename='js/ajax.js')}}"></script>
+
     {% block additional_head %}{% endblock%}
 </head>
 <body>
@@ -101,32 +91,44 @@
         <div class="row">
             <!-- 좌측 -->
             <div class="col-sm-3 p-4">
+                
                 <!-- <img src="https://picsum.photos/300/300" class="rounded-circle mx-auto" alt="picsum" style="width:80%"> -->
-                <img src="{{url_for('static', filename='img/flower.png')}}" class="rounded-circle mx-auto" alt="picsum" style="width:80%">
+                <a href="javascript:changeProfile()">
+                    <img id="profile_img" src="{{url_for('static', filename='data/profile.png')}}" class="rounded-circle mx-auto" alt="picsum" style="width:80%">
+                </a>
+                <div id="imageInput" class="'mt-2 d-none">
+                    <input type="file" id="image" class="form-control form-control-sm">
+                    <a href="javascript:imageSubmit()">
+                        <span class="badge bg-warning">확인</span>
+                    </a>
+                </div>
+
                 <div class="mt-2 p-2">
-                    <p id="famoussaying">
-                        <!-- <a href="#"><span class="badge bg-secondary">수정</span></a> -->
-                    </p>
+                    <span id="quoteMsg">{{quote}}</span>
+                    <!-- <p id="famoussaying"> -->
+                    <a href="javascript:changeQuote()"><span class="badge bg-secondary">수정</span></a>
+                    <!-- </p> -->
                 </div>
   
                 <div class="mt-3">
                     <i class="fa-sharp fa-solid fa-envelope me-2"></i>
                     <a href="#"><span class="text-black">ssmpet@naver.com</span></a>
                     <br>
-
-                    <!-- <i class="fa-brands fa-github"></i> -->
+                    
                     <img src="{{url_for('static', filename='img/github.png')}}" alt="github address" height="16" class="me-2">
                     <a href="#">KHY</a>
                     <br>
-                    
-                    <!-- <i class="fa-brands fa-facebook me-2"></i>
-                    <a href="#">jamesFacebook</a>
-                    <br> -->
 
-                    <!-- <i class="fa-solid fa-location-dot me-2"></i> -->
-                    <img src="{{url_for('static', filename='img/addr.png')}}" alt="address" height="16" class="me-2">
-                    수원시 장안구 <!--a href="#"--><span class="badge bg-secondary" id="p_weather">날씨</span><!--/a-->
-                    <p class="res_weather"></p>
+                    <a href="#" onclick="changeAddr(); return false;">
+                        <img src="{{url_for('static', filename='img/addr.png')}}" alt="address" height="16" class="me-2">
+                    </a>
+                    <span id="addr">{{addr}}</span> <a href="#" id="p_weather"><span class="badge bg-secondary">날씨</span></a>
+                    <div id="addrInput" class="mt-2 d-none">
+                        <input type="text" id="addrInputTag" class="form-control form-control-sm" style="width:40%;" 
+                            onkeyup="if(window.event.keyCode==13) {addrSubmit()}">
+                        <a href="javascript:addrSubmit()"><span class="badge bg-warning">확인</span></a>
+                    </div>
+                    <small><p class="res_weather">{{ weathers | safe() }}</p></small>
 
                     <!-- <div class="mt-4">
                         <button type="button" class="btn btn-sm btn-outline-primary">Edit Profile</button>

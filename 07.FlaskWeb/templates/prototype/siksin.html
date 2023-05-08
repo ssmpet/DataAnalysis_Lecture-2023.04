@@ -3,9 +3,41 @@
 {% block weather %} {{ weather | safe() }} {% endblock %}
 {% block additional_head %}
 <style>
-    th { text-align: center; width: 14.28%;}
-    td { height: 120px;}
+    /* th { text-align: center; width: 14.28%;}
+    td { height: 120px;} */
+    .siksin_img { width: 100px; height: 60px;}
+    table { text-align: center;}
 </style>
+<script>
+    function siksinSearch(){
+        let place = $('#place').val();
+        
+        let html = ''
+        $.ajax({
+            type: 'GET', 
+            url: '/siksin2', 
+            data: {place: place},
+            success: function(result){
+                siksin = result;
+                for(i in siksin) {
+                    html += '<tr>'
+                    html += `<td><img class="siksin_img" src="${siksin[i].img}" alt="${siksin[i].title}"></td>`
+                    html += `<td>${ siksin[i].title }</td>`
+                    html += `<td>${ siksin[i].score }</td>`
+                    html += `<td>${ siksin[i].location }</td>`
+                    html += `<td>${ siksin[i].menu }</td>`
+                 
+
+                }
+
+                $("#siksin_res").empty();
+                $("#siksin_res").append(html);
+            }
+
+        });
+        $('#siksin_res').attr('class', 'table');
+    }
+</script>
 {% endblock%}
 
 {% block subtitle %} 식신 맛집 찾기 {% endblock %}
@@ -14,17 +46,28 @@
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8">
-        <form action="/siksin" method="POST" >
+        <!-- <form action="/siksin" method="POST"> -->
             <table class="table table-borderless justify-content-center">
                 <tr>
-                    <td><input type="text" class="form-control" name="place"></td>
-                    <td><input type="submit" class="btn btn-primary" value="검색"></td>
+                    <td><input type="text" class="form-control" id="place"></td>
+                    <td><input type="submit" class="btn btn-primary" value="검색" onclick="siksinSearch()"></td>
                 </tr>
             </table>
-        </form>
+        <!-- </form> -->
         </div>
         <div class="col-2"></div>
     </div>
+    <table id="siksin_res" class="table d-none">
+        <thead class="table-warning">
+            <tr>
+                <th></th>
+                <th>가계명</th>
+                <th>평점</th>
+                <th>위치</th>
+                <th>메뉴종류</th>
+            </tr>
+        </thead>        
+    </table>
 </div>
 
 {% endblock %}
