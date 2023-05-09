@@ -50,8 +50,9 @@ def hotplaces():
 
         places = [place1, place2, place3]
 
-        map_util.hot_places(places, app)
-        return 'OK'
+        mtime = map_util.hot_places(places, app)
+
+        return str(mtime)
         # if map_util.hot_places(places, app):
         #     return render_template('10.수원hotplace_res.html', order=2)
         # else:

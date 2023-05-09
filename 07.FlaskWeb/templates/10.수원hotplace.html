@@ -9,8 +9,9 @@
         let place3 = $('#place3').val();
 
         let fname = `{{url_for("static", filename="img/")}}`;
-        fname += 'hotpalces.html'
+        fname += 'hotpalces.html?q=';
 
+        let html = '';
        
         $.ajax({
             type: 'POST',
@@ -18,8 +19,18 @@
             data: {place1:place1, place2:place2, place3:place3},
             
             success: function(result){
-                // fname += result;
+                fname += result;
+                
+                // $('#hotpalces_res').empty();
+
+                // html = '<iframe id="hotpalces_res" src="';
+                // html += fname
+                // html += '" frameborder="1" width="800" height="500"></iframe>'            
+
+                // console.log(html)
                 $('#hotpalces_res').attr('src', fname);
+                // $('#hotpalces_res').append(html);
+
                 $('#hotpalces_view').attr('class', 'row');
             }
         });

@@ -60,4 +60,7 @@ def hot_places(places, app):
     filename = os.path.join(app.static_folder, 'img/hotpalces.html')
     g_map.save(filename)
 
-    return True
+    mtime = int(os.stat(filename).st_mtime)   # 마지막으로 변경된 시간
+
+    return mtime
+    # return True

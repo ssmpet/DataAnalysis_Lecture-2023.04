@@ -15,4 +15,4 @@ def sub_scatter(num, xmean, xstd, ymin, ymax, app):
     plt.savefig(filename)
     mtime = int(os.stat(filename).st_mtime)   # 마지막으로 변경된 시간
 
-    return mtime
+    return str(mtime)
