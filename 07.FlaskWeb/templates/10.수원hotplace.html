@@ -1,6 +1,31 @@
 {% extends "13.bootstrap.html" %}
 {% block title %}수원 HOT PLACE{% endblock %}
 {% block subtitle %} 수원 HOT PLACE <i class="fas fa-home"></i>{% endblock %}
+{% block additional_head %}
+<script>
+    function hotplaceSubmit(){
+        let place1 = $('#place1').val();
+        let place2 = $('#place2').val();
+        let place3 = $('#place3').val();
+
+        let fname = `{{url_for("static", filename="img/")}}`;
+        fname += 'hotpalces.html'
+
+       
+        $.ajax({
+            type: 'POST',
+            url: '/hotplaces',
+            data: {place1:place1, place2:place2, place3:place3},
+            
+            success: function(result){
+                // fname += result;
+                $('#hotpalces_res').attr('src', fname);
+                $('#hotpalces_view').attr('class', 'row');
+            }
+        });
+    }
+</script>
+{% endblock%}
 
 {% block content %}
 
@@ -8,18 +33,27 @@
         <div class="row">
             <div class="col-2"></div>
             <div class="col-8">
-            <form action="/hotplaces" method="POST" >
+            <!-- <form action="/hotplaces" method="POST" > -->
                 <table class="table table-borderless justify-content-center">
                     <tr>
-                        <td><input type="text" class="form-control" name="place1"></td>
-                        <td><input type="text" class="form-control" name="place2"></td>
-                        <td><input type="text" class="form-control" name="place3"></td>
-                        <td><input type="submit" class="btn btn-primary" value="제출"></td>
+                        <td><input type="text" class="form-control" id="place1"></td>
+                        <td><input type="text" class="form-control" id="place2"></td>
+                        <td><input type="text" class="form-control" id="place3"></td>
+                        <td><input type="submit" class="btn btn-primary" value="제출" onclick="hotplaceSubmit();"></td>
                     </tr>
                 </table>
-            </form>
+            <!-- </form> -->
             </div>
             <div class="col-2"></div>
         </div>
+        <div class="row d-none" id="hotpalces_view">
+            <div class="col-2"></div>
+            <div class="col-8 container text-center">
+               <iframe id="hotpalces_res" src="{{url_for('static', filename='img/hotpalces.html')}}" frameborder="1" width="800" height="500"></iframe>               
+            </div>
+            <div class="col-2"></div>
+        </div>
+
     </div>
+
 {% endblock %}

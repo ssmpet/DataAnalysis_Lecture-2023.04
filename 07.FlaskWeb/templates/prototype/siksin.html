@@ -25,13 +25,13 @@
                     html += `<td>${ siksin[i].title }</td>`
                     html += `<td>${ siksin[i].score }</td>`
                     html += `<td>${ siksin[i].location }</td>`
-                    html += `<td>${ siksin[i].menu }</td>`
+                    html += `<td>${ siksin[i].menu }</td></tr>`
                  
 
                 }
 
-                $("#siksin_res").empty();
-                $("#siksin_res").append(html);
+                $("#siksin_res_con").empty();
+                $("#siksin_res_con").append(html);
             }
 
         });
@@ -66,7 +66,9 @@
                 <th>위치</th>
                 <th>메뉴종류</th>
             </tr>
-        </thead>        
+        </thead> 
+        <tbody id="siksin_res_con">
+        </tbody>       
     </table>
 </div>
 

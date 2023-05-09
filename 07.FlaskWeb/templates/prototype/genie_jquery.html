@@ -1,0 +1,76 @@
+{% extends "prototype/base.html" %}
+{% block title %}지니차트 jQuery{% endblock %}
+{% block weather %} {{ weather | safe() }} {% endblock %}
+
+{% block additional_head %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+<style>
+    .genie_img { width: 50px; height: 60px;}
+    table, th { text-align: center;}
+</style>
+{% endblock%}
+
+{% block subtitle %} 지니차트{% endblock %}
+{% block content %}
+
+    <table id="example" class="table">
+        <thead class="table-warning text-center">
+            <tr>
+                <th class="text-center">index</th>
+                <th class="text-center" width="5%">순위</th>
+                <th class="text-center"></th>
+                <th class="text-center">곡정보</th>
+                <th class="text-center">아티스트</th>
+                <th class="text-center">앨범</th>
+            </tr>
+        </thead>
+        {% for chart in charts %}
+        <tr>
+            <td>{{ chart.rank }}</td>
+            <td>{{ chart.rank }}</td>
+            <td><img class="genie_img" src="{{ chart.img }}" alt="{{ chart.title }}"></td>
+            <td>{{ chart.title }}</a></td>
+            <td>{{ chart.artist }}</td>
+            <td>{{ chart.album }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+    <br><br>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                info: false,
+                searching: true,
+                paging: true,
+                ordering: false,
+                //order: [[ 0, "asc" ]],
+                columnDefs: [{
+                    "targets": [ 0 ],
+                    "visible": false,
+                    "searchable": false
+                }],
+                language: {
+                    thousands: ',',
+                    search: '',
+                    searchPlaceholder: "검색어",
+                    paginate: {
+                        first: '처음',
+                        previous: '이전',
+                        next: '다음',
+                        last: '마지막',
+                    }
+                },
+                oLanguage: {
+                    sLengthMenu: "_MENU_",
+                },
+                "lengthMenu": [[10, -1], ["10개씩 보기", "모두 보기"]]
+            });
+        } );
+    </script>
+
+{% endblock %}

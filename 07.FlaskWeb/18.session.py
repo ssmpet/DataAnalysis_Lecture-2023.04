@@ -1,14 +1,47 @@
-from flask import Flask, render_template, request, url_for, jsonify, redirect
+from flask import Flask, render_template, request, url_for, jsonify, redirect, session, flash
 from user_util import get_weather, get_saying, chg_profile
 import interpark_util, genie_util, siksin_util
-import random, os
+import random, os, json
+from user_module.user import user_bp
+
 
 app = Flask(__name__)
+app.secret_key = 'qwert12345'
+app.config['SESSION_COOKIE_PATH'] = '/'
 
+app.register_blueprint(user_bp, url_prefix='/user')
+
+###########################################
+## 서버를 처음 실행시킬 때 한번 실행된다.
+# with app.app_context():
+# app.request_context()
+
+# with app.request_context(environ):
+with app.test_request_context():
+# def test_request():
+    print('app_context')
+    global quote, quotes   # 전역변수
+    global g_addr
+    global passwords
+
+    quotes = get_saying(app)
+    quote = random.sample(quotes, 1)[0]
+
+    # session 
+    session['quote'] = quote
+    g_addr = '수원시 장안구'
+    global weathers
+    weathers = ''
+
+# @app.before_request_funcs(test_request())
 @app.route('/')
 def index():
     return 'Hello Flask!!!'
 
+# @app.route('/login')
+# def login():
+#     menu = {'ho': 0, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 0, 'lo': 1}
+#     return render_template('prototype/login.html', menu=menu, weather=get_weather(app), quote=quote, addr=g_addr, weathers=weathers)
 
 @app.route('/home')
 def home():
@@ -16,11 +49,11 @@ def home():
     return render_template('prototype/home.html', menu=menu, weather=get_weather(app), quote=quote, addr=g_addr, weathers=weathers)
 
 
-@app.route('/user')
-def user():
+@app.route('/aboutme')
+def aboutme():
     menu = {'ho': 0, 'us': 1, 'cr': 0, 'ai': 0, 'sc': 0}
-    return redirect('/schedule')
-    # return render_template('prototype/user.html', menu=menu, weather=get_weather(app), quote=quote, addr=g_addr, weathers=weathers)
+    # return redirect('/schedule')
+    return render_template('prototype/user.html', menu=menu, weather=get_weather(app), quote=quote, addr=g_addr, weathers=weathers)
 
 
 @app.route('/interpark')
@@ -38,6 +71,13 @@ def geniechart():
     menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0}
     return render_template('prototype/geniechart.html', menu=menu, weather=get_weather(app), charts=charts, quote=quote, addr=g_addr, weathers=weathers)
 
+
+@app.route('/genie_jquery')
+def genie_jquery():
+
+    charts = genie_util.get_genie_chart()
+    menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0}
+    return render_template('prototype/genie_jquery.html', menu=menu, weather=get_weather(app), charts=charts, quote=quote, addr=g_addr, weathers=weathers)
 
 @app.route('/siksin', methods=['GET', 'POST'])
 def siksin():
@@ -64,7 +104,13 @@ def siksin2():
     return siksins        
 
 @app.route('/schedule')
-def schedule():
+def schedule():    
+    try : 
+        tmp = session['uid']
+    except:
+        flash('스케줄을 확인하려면 로그인을 하여야 합니다.')
+        return redirect('/user/login')
+        
     menu = {'ho': 0, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 1}
     return render_template('prototype/schedule.html', menu=menu,  weather=get_weather(app), quote=quote, addr=g_addr, weathers=weathers)
 
@@ -85,12 +131,16 @@ def get_weath():
 def change_quote():
     global quote
     quote = random.sample(quotes, 1)[0]
+
+    session['quote'] = quote
+
     return quote
 
 @app.route('/change_addr')
 def change_addr():
     global g_addr
     g_addr = request.args.get('addr')
+    session['addr'] = g_addr
     return g_addr
 
 @app.route('/change_profile', methods=['POST'])
@@ -103,17 +153,8 @@ def change_profile():
     mtime = chg_profile(app, filename)
     return str(mtime)
 
-###########################################
-## 서버를 처음 실행시킬 때 한번 실행된다.
-with app.app_context():
-    print('app_context')
-    global quote, quotes   # 전역변수
-    global g_addr
-    quotes = get_saying(app)
-    quote = random.sample(quotes, 1)[0]
-    g_addr = '수원시 장안구'
-    global weathers
-    weathers = ''
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

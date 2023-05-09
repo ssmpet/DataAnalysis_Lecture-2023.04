@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import os
 
 def sub_scatter(num, xmean, xstd, ymin, ymax, app):
-    colors = np.random.rand(100)
+    colors = np.random.rand(num)
 
     xs = np.random.normal(loc=xmean, scale=xstd, size=num)
     ys = np.random.uniform(ymin, ymax, num)

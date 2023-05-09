@@ -20,13 +20,6 @@
         * { font-family: 'Noto Sans KR', sans-serif;}
         a { text-decoration:none;  }
     </style>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <script>
-            alert("{{messages[-1]}}")
-        </script>
-    {% endif %}
-    {% endwith %}
 
     <script src="{{url_for('static', filename='js/ajax.js')}}"></script>
 
@@ -48,7 +41,7 @@
                     </a>
                 </li>
                 <li class="nav-item ms-3">
-                    <a class="nav-link {% if menu.us %}active{% endif %}" href="{% if menu.us %}#{% else %}/aboutme{% endif %}">
+                    <a class="nav-link {% if menu.us %}active{% endif %}" href="{% if menu.us %}#{% else %}/user{% endif %}">
                         <i class="fa-sharp fa-solid fa-user-group"></i>
                         <b>사용자</b>
                     </a>
@@ -62,8 +55,6 @@
                         <li><a class="dropdown-item" href="/interpark">인터파크</a></li>
                         <li><a class="dropdown-item" href="/geniechart">지니차트</a></li>
                         <li><a class="dropdown-item" href="/siksin">식신</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/genie_jquery">지니차트-jQuery버전</a></li>
                     </ul>
                 </li>
                 <!--li class="nav-item dropdown ms-3">
@@ -83,26 +74,15 @@
                         <b>스케줄</b>
                     </a>
                 </li>
-                <li class="nav-item ms-3">
-                    {% if session['uid'] %}
-                    <a class="nav-link" href="{% if menu.lo %}#{% else %}/user/logout{% endif %}">
+                <!-- <li class="nav-item ms-3">
+                    <a class="nav-link" href="#">
                         <i class="fa-sharp fa-solid fa-right-from-bracket"></i>
                         로그아웃
-                    {% else %}
-                    <a class="nav-link {% if menu.lo %}active{% endif %}" href="{% if menu.lo %}#{% else %}/user/login{% endif %}">
-                        <i class="fa-sharp fa-solid fa-right-to-bracket"></i>
-                        로그인
-                    {% endif %}
                     </a>
-                </li>                
+                </li> -->
             </ul>  
-            <span class="navbar-text me-2">
-                {% if session['uid'] %}
-                    {{ session['uid'] }}님 환영합니다.
-                {% else %}
-                    {% block weather %}{% endblock %}
-                {% endif %}                
-            </span>
+            <span class="navbar-text me-2">{% block weather %}{% endblock %}</span>
+
         </div>
     </nav>
 
@@ -124,7 +104,7 @@
                 </div>
 
                 <div class="mt-2 p-2">
-                    <span id="quoteMsg">{% if session['quote'] %}{{ session['quote'] }}{% else %}{{ quote }}{% endif %}</span>
+                    <span id="quoteMsg">{{quote}}</span>
                     <!-- <p id="famoussaying"> -->
                     <a href="javascript:changeQuote()"><span class="badge bg-secondary">수정</span></a>
                     <!-- </p> -->

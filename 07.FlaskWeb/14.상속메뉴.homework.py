@@ -18,16 +18,20 @@ def scatter():
     if request.method == 'GET':
         return render_template('09.산점도.html', order=1)
     else:
-        num = int(request.form['num'])
-        xmean = int(request.form['mean'])
-        xstd = int(request.form['std'])
-        ymin = int(request.form['min'])
-        ymax = int(request.form['max'])
+        print('산점도 POST')
+        num = int(request.values['num'])
+        xmean = int(request.values['mean'])
+        xstd = int(request.values['std'])
+        ymin = int(request.values['min'])
+        ymax = int(request.values['max'])
 
         mtime = sub_util.sub_scatter(num, xmean, xstd, ymin, ymax, app)
-        
 
-        return render_template('09.산점도_res.html', order=1, mtime=mtime)
+        print(num, xmean, xstd, ymin, ymax, mtime)
+
+        return str(mtime)
+        # return render_template('09.산점도.html', order=1, mtime=mtime)
+        # return render_template('09.산점도_res.html', order=1, mtime=mtime)
 
 
 
@@ -37,15 +41,21 @@ def hotplaces():
         return render_template('10.수원hotplace.html', order=2)
     else:
 
-        place1 = request.form['place1']
-        place2 = request.form['place2']
-        place3 = request.form['place3']
+        print('hot place POST')
+        place1 = request.values['place1']
+        place2 = request.values['place2']
+        place3 = request.values['place3']
+
+        print(place1, place2, place3)
 
         places = [place1, place2, place3]
-        if map_util.hot_places(places, app):
-            return render_template('10.수원hotplace_res.html', order=2)
-        else:
-            return render_template('10.수원hotplace.html', order=2)
+
+        map_util.hot_places(places, app)
+        return 'OK'
+        # if map_util.hot_places(places, app):
+        #     return render_template('10.수원hotplace_res.html', order=2)
+        # else:
+        #     return render_template('10.수원hotplace.html', order=2)
 
 
 

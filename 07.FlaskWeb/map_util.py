@@ -54,8 +54,8 @@ def hot_places(places, app):
             tooltip=df.장소[i],
         ).add_to(g_map)
 
-    title_html = '<h3 align="center" style="font-size:20px;">수원 명소</h3>'
-    g_map.get_root().html.add_child(folium.Element(title_html))
+    # title_html = '<h3 align="center" style="font-size:20px;">수원 명소</h3>'
+    # g_map.get_root().html.add_child(folium.Element(title_html))
 
     filename = os.path.join(app.static_folder, 'img/hotpalces.html')
     g_map.save(filename)
