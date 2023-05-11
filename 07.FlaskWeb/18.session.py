@@ -113,7 +113,7 @@ def schedule():
         
     menu = {'ho': 0, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 1}
     cals = calendar_util.get_calendar()
-    return render_template('prototype/schedule2.html', menu=menu,  weather=get_weather(app), cals=cals, quote=quote, addr=g_addr, weathers=weathers)
+    return render_template('prototype/schedule.html', menu=menu,  weather=get_weather(app), cals=cals, quote=quote, addr=g_addr, weathers=weathers)
 
 ###########################################
 ### for AJAX
@@ -158,4 +158,4 @@ def change_profile():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

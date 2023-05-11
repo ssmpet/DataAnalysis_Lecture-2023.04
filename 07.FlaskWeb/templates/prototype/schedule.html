@@ -41,94 +41,33 @@
             <th>금</th>
             <th class="text-primary">토</th>
         </tr>
+        
         {% for cal in cals %}
-        <tr>
-            <td class="text-danger" style="opacity:0.5">{{ cal.day}}</td>
-            <td style="opacity:0.5">27</td>
-            <td>
-                <span style="opacity:0.5">28</span><br>
-                <span style="font-size:12px">10:30 일정 테스트</span>
-            </td>
-            <td>
-                <div class="d-flex justify-content-between">
-                    <div class="text-danger">1</div>
-                    <div>삼일절</div>
-                </div>
-            </td>
-            <td>2</td>
-            <td>
-                <div class="d-flex justify-content-between">
-                    <div>3</div>
-                    <div>삼겹살데이</div>
-                </div>
-                <span style="font-size:12px">16:00 주간 업무 리뷰</span>
-            </td>
-            <td class="text-primary">4</td>
-        </tr>
+            {% if loop.index%7 == 1 %}
+                <tr>
+                    <td> {{ cal.day }} </td>
+            {% endif %}
+            {% if loop.index%7 == 2 %}
+                    <td> {{ cal.day }} </td>
+            {% endif %}
+            {% if loop.index%7 == 3 %}
+                    <td> {{ cal.day }} </td>
+            {% endif %}
+            {% if loop.index%7 == 4 %}
+                    <td> {{ cal.day }} </td>
+            {% endif %}
+            {% if loop.index%7 == 5 %}
+                    <td> {{ cal.day }} </td>
+            {% endif %}
+            {% if loop.index%7 == 6 %}
+                    <td> {{ cal.day }} </td>
+            {% endif %}
+            {% if loop.index%7 == 0 %}
+                    <td> {{ cal.day }} </td>
+                </tr>
+            {% endif %}
+                   
         {% endfor %}
-        <tr>
-            <td class="text-danger">5</td>
-            <td>
-                <div class="d-flex justify-content-between">
-                    <div class="text-danger">6</div>
-                    <div>경칩</div>
-                </div>
-                <span style="font-size:12px">13:00 동영상 녹화</span>
-            </td>
-            <td>7<br>
-                <span style="font-size:12px">16:00 최종발표 리허설</span>
-            </td>
-            <td>8<br>
-                <span style="font-size:12px">14:00 <strong>최종발표</strong></span>
-            </td>
-            <td>9</td>
-            <td>10</td>
-            <td class="text-primary">11</td>
-        </tr>
-        <tr>
-            <td class="text-danger">12</td>
-            <td>13
-                <div class="mt-1" style="font-size:12px">
-                    9:00 오리엔테이션
-                </div>
-            </td>
-            <td >
-                <div class="d-flex justify-content-between">
-                    <div>14</div>
-                    <div>화이트데이</div>
-                </div>
-                <div class="mt-1" style="font-size:12px">
-                    <strong>12:00 케냐방문</strong><br>
-                    18:00 귀가
-                </div>
-            </td>
-            <td style="background-color: #efffff;">15</td>
-            <td>16</td>
-            <td>17</td>
-            <td class="text-primary">18</td>
-        </tr>
-        <tr>
-            <td class="text-danger">19</td>
-            <td>20</td>
-            <td >
-                <div class="d-flex justify-content-between">
-                    <div>21</div>
-                    <div>춘분</div>
-                </div>
-            </td>
-            <td>22</td>
-            <td>23</td>
-            <td>24</td>
-            <td class="text-primary">25</td>
-        </tr>
-        <tr>
-            <td class="text-danger">26</td>
-            <td>27</td>
-            <td>28</td>
-            <td>29</td>
-            <td>30</td>
-            <td>31</td>
-            <td style="opacity:0.5" class="text-primary">1</td>
-        </tr>
+        
     </table>
 {% endblock %}
