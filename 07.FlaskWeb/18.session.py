@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, jsonify, redirect, session, flash
 from user_util import get_weather, get_saying, chg_profile
-import interpark_util, genie_util, siksin_util
+import interpark_util, genie_util, siksin_util, calendar_util
 import random, os, json
 from user_module.user import user_bp
 
@@ -112,7 +112,8 @@ def schedule():
         return redirect('/user/login')
         
     menu = {'ho': 0, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 1}
-    return render_template('prototype/schedule.html', menu=menu,  weather=get_weather(app), quote=quote, addr=g_addr, weathers=weathers)
+    cals = calendar_util.get_calendar()
+    return render_template('prototype/schedule2.html', menu=menu,  weather=get_weather(app), cals=cals, quote=quote, addr=g_addr, weathers=weathers)
 
 ###########################################
 ### for AJAX
