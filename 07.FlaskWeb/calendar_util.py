@@ -4,6 +4,15 @@ import requests, json
 from pandas import json_normalize
 import calendar
 
+def is_info_day(in_list, s_date, s_datename):
+    # print(type(lists))
+    for i in range(len(in_list)):
+        # print( in_list[i]['locdate'], s_date)
+        if in_list[i]['locdate'] == s_date:
+            in_list[i]['dateName'] = in_list[i]['dateName'] + ' ' + s_datename
+            # print(in_list[i]['dateName'])
+            return True
+    return False
 
 def get_calendar():
     today = datetime.now()
@@ -51,23 +60,31 @@ def get_calendar():
     f_list = ['getRestDeInfo', 'getAnniversaryInfo', 'get24DivisionsInfo', 'getSundryDayInfo']
     base_url = 'http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/' #getSundryDayInfo?_type=json&numOfRows=50&solYear='
     param1 = '?_type=json&numOfRows=80&solYear='
+
     holidays = None
+    in_list = []
     for name in f_list:
         url = base_url + name + param1 + str(tyear) + '&ServiceKey=' + apikey
-        res = ''
+        ress = ''
 
         try:
             result = requests.get(url) 
             if result.status_code == 200:
                 print('200')
-                res = result.text
+                ress = result.text
         except:
             pass
 
-        if res: 
-            res = json.loads(res)
-            holidays = pd.concat([holidays, json_normalize(res['response']['body']['items']['item'])[['dateKind', 'dateName', 'isHoliday', 'locdate']] ])
+        if ress: 
+            ress = json.loads(ress)['response']['body']['items']['item']
+        for i in range(len(ress)):
+            # print(ress[i]['locdate'])
+            if is_info_day(in_list, ress[i]['locdate'], ress[i]['dateName']) :
+                pass
+            else:
+                in_list.append(ress[i])
 
+    holidays = pd.DataFrame(in_list)
 
     holidays['locdate'] = holidays['locdate'].astype(str)
     holidays['locdate'] = pd.to_datetime(holidays['locdate'], format='%Y%m%d')
