@@ -1,8 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
 import pandas as pd
-
 
 def melon_util():
     url = 'https://www.melon.com/chart/index.htm'

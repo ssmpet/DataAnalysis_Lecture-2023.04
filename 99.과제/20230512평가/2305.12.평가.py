@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import melon_util as mu
 import youtube_rank_util as yu
 
@@ -12,14 +12,20 @@ def index():
 def melon():
 
     charts = mu.melon_util()
-    return render_template('melon.html', charts=charts)
+    return render_template('melon.html', charts=charts, order=0)
 
-@app.route('/youtube_ranking')
+@app.route('/youtube_ranking', methods=['GET', 'POST'])
 def youtube_ranking():
 
-    ranks = yu.youtube_rank_util()
-    
-    return render_template('youtube_ranking.html', ranks=ranks)
-
+    if request.method == 'GET':
+        ranks = yu.youtube_rank_util(app)
+        return render_template('youtube_ranking.html', ranks=ranks, order=1)
+    else:
+        rank = request.values['rank']
+        if rank == 'top20':
+            return str(yu.rank_top20(app))
+        else:
+            return str(yu.rank_top10(app))
+        
 if __name__ == '__main__':
     app.run(debug=True)

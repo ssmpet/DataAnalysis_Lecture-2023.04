@@ -1,61 +1,108 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <META HTTP-EQUIV="Expires" CONTENT="-1">
-    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+{% extends "base.html" %}
+{% block title %} 유튜브 랭킹 {% endblock %}
+
+{% block additional_head %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    function subcategory(top_val){
+
+        let fname = `{{url_for("static", filename="data/")}}`;
+        fname += 'youtubeRank' + top_val + '.png?q='
+
+        $('#example').DataTable().destroy();
+        $('#example').attr('class', 'd-none');
+
+        $.ajax({
+            type: 'POST',
+            url: '/youtube_ranking',
+            data: {rank:top_val},
+            
+            success: function(result){
+                
+                fname += result;
+                $('#rank_view').attr('class', 'container text-center');
+                $('#rank_res').attr('src', fname); 
+            }
+        });
+    }
+</script>
+
+{% endblock %}
+
+{% block subtitle %}유튜브 랭킹{% endblock %}
+
+{% block content %}
+
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/fbb7139956.js" crossorigin="anonymous"></script>
-    
-    <title>유튜브 랭크</title>
-    <style>
-        * { font-family: "Noto Sans KR", sans-serif;}
-    </style>
-    
-</head>
-<body>
-    <div class="container-fluid p-3 bg-warning text-white text-center">
-        <h1> 2023년 5월 12일 평가</h1>
+    <div class="d-flex justify-content-end mb-2">
+        <button  type="button" class="btn btn-warning me-3" onclick="subcategory('top20')">구독자수 Top20 채널</button>
+        <button  type="button" class="btn btn-warning" onclick="subcategory('top10')">카테로리별 채널수 Top10</button>
     </div>
 
-    <div class="container mt-5 text-center">
-        <h3>유튜브 랭크</h3>
+    <div class="container text-center d-none" id="rank_view">
+        <img id="rank_res" src="#" class="rounded"  style="width:1000px; height:600px;" alt="결과">
+    </div>
 
-        
-        <button  type="button" class="btn btn-warning">구독자수 Top20 채널</button>
-
-        <button  type="button" class="btn btn-warning">카테로리별 채널수 Top10</button>
-
-        <table class="table mt-5">
-            <thead class="table-warning">
-                <tr>
-                    <th width="5%">순위</th>
-                    <th>카테고리</th>
-                    <th>채널명</th>
-                    <th>구독자수</th>
-                    <th>조회수</th>
-                    <th>비디오수</th>
-                </tr>
-            </thead>
-            {% for rank in ranks %}
+    <table class="table mt-5" id="example">
+        <thead class="table-warning">
             <tr>
-                <td>{{ rank.순위 }}</td>
-                <td>{{ rank.카테고리 }}</td>
-                <td>{{ rank.채널 }}</a></td>
-                <td>{{ rank.구독자수 }}</td>
-                <td>{{ rank.조회수 }}</td>
-                <td>{{ rank.비디오 }}</td>
+                <th class="text-center">index</th>
+                <th class="text-center" width="5%">순위</th>
+                <th class="text-center" >카테고리</th>
+                <th class="text-center" >채널명</th>
+                <th class="text-center" >구독자수</th>
+                <th class="text-center" >조회수</th>
+                <th class="text-center" >비디오수</th>
             </tr>
-            {% endfor %}
-        </table>
+        </thead>
+        {% for rank in ranks %}
+        <tr>
+            <td>{{ rank.순위 }}</td>
+            <td>{{ rank.순위 }}</td>
+            <td>{{ rank.카테고리 }}</td>
+            <td>{{ rank.채널 }}</a></td>
+            <td>{{ rank.구독자수 }}</td>
+            <td>{{ rank.조회수 }}</td>
+            <td>{{ rank.비디오 }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br><br>
 
-    </div>
-</body>
-</html>
+
+
+   <script>
+    $(document).ready(function() {
+        $('#example').DataTable({
+            info: false,
+            searching: false,
+            paging: true,
+            ordering: false,
+            //order: [[ 0, "asc" ]],
+            columnDefs: [{
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }],
+            language: {
+                thousands: ',',
+                // search: '',
+                // searchPlaceholder: "검색어",
+                paginate: {
+                    first: '처음',
+                    previous: '이전',
+                    next: '다음',
+                    last: '마지막',
+                }
+            },
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+            },
+            "lengthMenu": [[20, -1], ["20개씩 보기", "모두 보기"]]
+        });
+    } );
+</script>
+   
+{% endblock %}
