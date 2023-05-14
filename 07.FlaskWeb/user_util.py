@@ -49,6 +49,7 @@ def get_weather(app, addr=None):
         lat, lng = 37.295, 127.045  # 수원 중심부 좌표
 
     key_file = os.path.join(app.static_folder, 'key/openweather.txt')
+    
     with open(key_file) as f:
         weather_key = f.read()
 

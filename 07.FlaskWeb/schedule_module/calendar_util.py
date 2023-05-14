@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 import pandas as pd
-import requests, json
+import requests, json, os
 from pandas import json_normalize
 import calendar
 
@@ -14,7 +14,8 @@ def is_info_day(in_list, s_date, s_datename):
             return True
     return False
 
-def get_calendar():
+def get_calendar(app):
+    
     today = datetime.now()
 
     tyear = today.year
@@ -54,7 +55,9 @@ def get_calendar():
     # l_dt.head()
 
     # 공휴일, 24절기, 잡절
-    with open('static/key/holidays.txt') as f:
+    filename = os.path.join(app.static_folder, 'key/holidays.txt')
+    
+    with open(filename) as f:
         apikey = f.read()
 
     f_list = ['getRestDeInfo', 'getAnniversaryInfo', 'get24DivisionsInfo', 'getSundryDayInfo']
@@ -70,7 +73,6 @@ def get_calendar():
         try:
             result = requests.get(url) 
             if result.status_code == 200:
-                print('200')
                 ress = result.text
         except:
             pass

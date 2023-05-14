@@ -46,23 +46,17 @@
             {% if loop.index%7 == 1 %}
                 <tr>
                     <td> {{ cal.day }} </td>
-            {% endif %}
-            {% if loop.index%7 == 2 %}
+            {% elif loop.index%7 == 2 %}
                     <td> {{ cal.day }} </td>
-            {% endif %}
-            {% if loop.index%7 == 3 %}
+            {% elif loop.index%7 == 3 %}
                     <td> {{ cal.day }} </td>
-            {% endif %}
-            {% if loop.index%7 == 4 %}
+            {% elif loop.index%7 == 4 %}
                     <td> {{ cal.day }} </td>
-            {% endif %}
-            {% if loop.index%7 == 5 %}
+            {% elif loop.index%7 == 5 %}
                     <td> {{ cal.day }} </td>
-            {% endif %}
-            {% if loop.index%7 == 6 %}
+            {% elif loop.index%7 == 6 %}
                     <td> {{ cal.day }} </td>
-            {% endif %}
-            {% if loop.index%7 == 0 %}
+            {% elif loop.index%7 == 0 %}
                     <td> {{ cal.day }} </td>
                 </tr>
             {% endif %}

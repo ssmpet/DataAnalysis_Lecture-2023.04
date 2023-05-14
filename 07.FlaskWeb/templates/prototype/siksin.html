@@ -14,8 +14,8 @@
         
         let html = ''
         $.ajax({
-            type: 'GET', 
-            url: '/siksin2', 
+            type: 'POST', 
+            url: '/siksin', 
             data: {place: place},
             success: function(result){
                 siksin = result;
@@ -32,10 +32,10 @@
 
                 $("#siksin_res_con").empty();
                 $("#siksin_res_con").append(html);
+                $('#siksin_res').attr('class', 'table');
             }
 
-        });
-        $('#siksin_res').attr('class', 'table');
+        });        
     }
 </script>
 {% endblock%}
