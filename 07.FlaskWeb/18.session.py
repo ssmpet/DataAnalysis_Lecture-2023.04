@@ -11,86 +11,41 @@ app.config['SESSION_COOKIE_PATH'] = '/'
 
 app.register_blueprint(user_bp, url_prefix='/user')
 app.register_blueprint(schedule_bp, url_prefix='/schedule')
+user_bp.static_folder = app.static_folder
 schedule_bp.static_folder = app.static_folder
 
-# global quote, quotes   # 전역변수
-# global g_addr
-# global passwords
-
-quotes = get_saying(app)
-quote = random.sample(quotes, 1)[0]
-print(quote)
-
-# session 
-# session['quotes'] = quotes
-# session['quote'] = quote
-
-# print(session['quote'])
-
-g_addr = '수원시 장안구'
-
-# session['addr'] = '수원시 장안구'
-# print(session['addr'])
-
-# global weathers
-weathers = ''
 
 ###########################################
 ## 서버를 처음 실행시킬 때 한번 실행된다.
 
-
-# with app.request_context(environ):
 with app.test_request_context():
-# def test_request():
+
     print('app_context')
-    # global quote, quotes   # 전역변수
-    # global g_addr
-    # global passwords
+    global g_quote
+    global g_quotes   # 전역변수
+    global g_addr
+    global g_weathers
 
-    quotes = get_saying(app)
-    quote = random.sample(quotes, 1)[0]
-
-    # session 
-    # session['quotes'] = quotes
-    session['quote'] = quote
-
-    # print(session['quote'])
-
+    g_quotes = get_saying(app)
+    g_quote = random.sample(g_quotes, 1)[0]
     g_addr = '수원시 장안구'
-
-    session['addr'] = '수원시 장안구'
-    # print(session['addr'])
-
-    # global weathers
-    weathers = ''
+    g_weathers = ''
 
 # @app.before_request_funcs(test_request())
 @app.route('/')
 def index():
-    print('index')
-    
-
     return 'Hello Flask!!!'
-
-# @app.route('/login')
-# def login():
-#     menu = {'ho': 0, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 0, 'lo': 1}
-#     return render_template('prototype/login.html', menu=menu, weather=get_weather(app), quote=quote, addr=g_addr, weathers=weathers)
 
 @app.route('/home')
 def home():
 
-    print(session['quote'])
-    print(session['addr'])
-
     menu = {'ho': 1, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 0}
-    return render_template('prototype/home.html', menu=menu, weather=get_weather(app))
+    return render_template('prototype/home.html', menu=menu, weather=get_weather(app), quote=g_quote, addr=g_addr, weathers=g_weathers)
 
 @app.route('/aboutme')
 def aboutme():
     menu = {'ho': 0, 'us': 1, 'cr': 0, 'ai': 0, 'sc': 0}
-    # return redirect('/schedule')
-    return render_template('prototype/user.html', menu=menu, weather=get_weather(app), quote=quote, addr=g_addr, weathers=weathers)
+    return render_template('prototype/user.html', menu=menu, weather=get_weather(app), quote=g_quote, addr=g_addr, weathers=g_weathers)
 
 
 @app.route('/interpark')
@@ -99,14 +54,14 @@ def interparkbest():
     book_rank = interpark_util.interpark_util()
 
     menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0}
-    return render_template('prototype/interpark.html', menu=menu, weather=get_weather(app), book_rank=book_rank, quote=quote, addr=g_addr, weathers=weathers)
+    return render_template('prototype/interpark.html', menu=menu, weather=get_weather(app), book_rank=book_rank, quote=g_quote, addr=g_addr, weathers=g_weathers)
 
 @app.route('/geniechart')
 def geniechart():
 
     charts = genie_util.get_genie_chart()
     menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0}
-    return render_template('prototype/geniechart.html', menu=menu, weather=get_weather(app), charts=charts, quote=quote, addr=g_addr, weathers=weathers)
+    return render_template('prototype/geniechart.html', menu=menu, weather=get_weather(app), charts=charts, quote=g_quote, addr=g_addr, weathers=g_weathers)
 
 
 @app.route('/genie_jquery')
@@ -114,7 +69,7 @@ def genie_jquery():
 
     charts = genie_util.get_genie_chart()
     menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0}
-    return render_template('prototype/genie_jquery.html', menu=menu, weather=get_weather(app), charts=charts, quote=quote, addr=g_addr, weathers=weathers)
+    return render_template('prototype/genie_jquery.html', menu=menu, weather=get_weather(app), charts=charts, quote=g_quote, addr=g_addr, weathers=g_weathers)
 
 
 @app.route('/siksin', methods=['GET', 'POST'])
@@ -122,24 +77,13 @@ def siksin():
 
     menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0}
     if request.method == 'GET':
-        return render_template('prototype/siksin.html', menu=menu, weater=get_weather(app), quote=quote, addr=g_addr, weathers=weathers)
+        return render_template('prototype/siksin.html', menu=menu, weater=get_weather(app), quote=g_quote, addr=g_addr, weathers=g_weathers)
     else:
         
         place = request.values['place']
 
         siksins = siksin_util.get_siksin_util(place)
         return siksins
-        # return render_template('prototype/siksin_res.html', menu=menu, weater=get_weather(app), siksins=siksins, quote=quote, addr=g_addr, weathers=weathers)
-
-@app.route('/siksin2')
-def siksin2():
-    
-    # print('siksin2')
-    # place = request.values['place']
-    place = request.args.get('place')
-    # print(place)
-    siksins = siksin_util.get_siksin_util(place)
-    return siksins        
 
 
 ###########################################
@@ -149,27 +93,20 @@ def siksin2():
 @app.route('/get_weather')
 def get_weath():
     area = request.args.get('addr') + '청'
-    # global weathers
-    weathers = get_weather(app, area)
-    session['weathers'] = weathers
-    return weathers
+    g_weathers = get_weather(app, area)
+
+    return g_weathers
     # return jsonify(get_weather(app))
 
 # 명언 수정
 @app.route('/change_quote')
 def change_quote():
-    # global quote
-    quote = random.sample(quotes, 1)[0]
-
-    session['quote'] = quote
-
-    return quote
+    g_quote = random.sample(g_quotes, 1)[0]
+    return g_quote
 
 @app.route('/change_addr')
 def change_addr():
-    # global g_addr
     g_addr = request.args.get('addr')
-    session['addr'] = g_addr
     return g_addr
 
 @app.route('/change_profile', methods=['POST'])
@@ -185,4 +122,4 @@ def change_profile():
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

@@ -18,8 +18,14 @@ def convert_num(s):
 
 def youtube_rank_util(app):
 
+    options = webdriver.ChromeOptions() # 화면없이
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument("--single-process")
+    options.add_argument("--disable-dev-shm-usage")
+
     base_url = 'https://youtube-rank.com/board/bbs/board.php?bo_table=youtube&page='
-    driver = webdriver.Chrome('C:/Users/YONSAI/Downloads/chromedriver_win32/chromedriver.exe')
+    driver = webdriver.Chrome('C:/Users/YONSAI/Downloads/chromedriver_win32/chromedriver.exe', options=options)
 
     lines = []
     for i in range(1, 11):
@@ -45,7 +51,7 @@ def youtube_rank_util(app):
     df = pd.DataFrame(lines)
 
     filename = os.path.join(app.static_folder, 'data/youtubeRank.csv')
-    df.to_csv('static/data/youtubeRank.csv', index=False)
+    df.to_csv(filename, index=False)
 
     return lines
 
@@ -70,9 +76,11 @@ def rank_top20(app):
     mtime = int(os.stat(filename).st_mtime)   
 
     return mtime
-    
+
 # top10
 def rank_top10(app):
+    plt.rcParams['font.family'] = 'Malgun Gothic'
+    plt.rcParams['axes.unicode_minus'] = False
 
     filename = os.path.join(app.static_folder, 'data/youtubeRank.csv')
 

@@ -1,13 +1,14 @@
 from flask import Blueprint, request, render_template, session 
 from flask import redirect, flash
 import hashlib, base64, json
+from user_util import get_weather
 
 user_bp = Blueprint('user_bp', __name__)
 
 @user_bp.route('/login', methods=['GET', 'POST'])    #localhost:5000/user/login이 처리되는 곳
 def login():
     if request.method == 'GET':
-        return render_template('prototype/user/login.html', menu=None, weather='', quote='', addr='', weathers='')
+        return render_template('prototype/user/login.html', menu=None, weather=get_weather(user_bp), quote=quote, addr=g_addr)
     else:
 
         uid = request.form['uid']

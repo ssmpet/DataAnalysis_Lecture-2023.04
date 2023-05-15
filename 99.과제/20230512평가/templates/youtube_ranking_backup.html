@@ -5,9 +5,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-<style>
-    /* table, tr, th, td { text-align: center;} */
-</style>
 <script>
     function subcategory(top_val){
 
@@ -41,8 +38,21 @@
     
     <div class="d-flex justify-content-end mb-2">
         <button  type="button" class="btn btn-warning me-3" onclick="subcategory('top20')">구독자수 Top20 채널</button>
-        <button  type="button" class="btn btn-warning" onclick="subcategory('top10')">카테고리별 채널수 Top10</button>
+        <button  type="button" class="btn btn-warning" onclick="subcategory('top10')">카테로리별 채널수 Top10</button>
     </div>
+
+    <!-- <div style="display :none;">
+        <img src="{{ url_for('static', filename='please-wait.git')}}" alt="잠시만 기다려주세요.">
+        <form action="/youtube_ranking" method="post" id="form">
+            <input type="hidden" id="dummy" value="">
+        </form>
+    </div>
+    <script>
+        window.onload = function(){
+            let form = document.getElementById('form');
+            form.submit();
+        }
+    </script> -->
 
     <div class="container text-center d-none" id="rank_view">
         <img id="rank_res" src="#" class="rounded"  style="width:1000px; height:600px;" alt="결과">
@@ -51,20 +61,13 @@
     <table class="table mt-5" id="example">
         <thead class="table-warning">
             <tr>
-                <!-- <th class="text-center">index</th>
+                <th class="text-center">index</th>
                 <th class="text-center" width="5%">순위</th>
                 <th class="text-center" >카테고리</th>
                 <th class="text-center" >채널명</th>
                 <th class="text-center" >구독자수</th>
                 <th class="text-center" >조회수</th>
-                <th class="text-center" >비디오수</th> -->
-                <th>index</th>
-                <th width="5%">순위</th>
-                <th>카테고리</th>
-                <th>채널명</th>
-                <th>구독자수</th>
-                <th>조회수</th>
-                <th>비디오수</th>
+                <th class="text-center" >비디오수</th>
             </tr>
         </thead>
         {% for rank in ranks %}
@@ -81,6 +84,8 @@
     </table>
     <br><br>
 
+
+
    <script>
     $(document).ready(function() {
         $('#example').DataTable({
@@ -90,12 +95,10 @@
             ordering: false,
             //order: [[ 0, "asc" ]],
             columnDefs: [{
-                "targets" : [ 0 ],
-                "visible" : false,
-                "searchab,le" : false
-                },
-                { className : "dt-center", targets:"_all" }
-            ],
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }],
             language: {
                 thousands: ',',
                 // search: '',

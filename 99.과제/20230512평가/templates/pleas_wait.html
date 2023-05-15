@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %} 잠시만 기다려주세요 {% endblock %}
+
+{% block additional_head %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+{% endblock %}
+
+{% block subtitle %}유튜브 랭킹{% endblock %}
+
+{% block content %}
+
+
+    <img src="{{ url_for('static', filename='img/please-wait.gif')}}" alt="잠시만 기다려주세요." style="width:400px; height:400px;">
+    <form  style="display:none;" action="/youtube_ranking" method="GET" id="form">
+        <input type="hidden" id="dummy" value="">
+    </form>
+
+    <script>
+        window.onload = function(){
+            let form = document.getElementById('form');
+            form.submit();
+        }
+    </script>
+
+{% endblock %}

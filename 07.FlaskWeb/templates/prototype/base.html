@@ -124,7 +124,7 @@
                 </div>
 
                 <div class="mt-2 p-2">
-                    <span id="quoteMsg">{{ session['quote'] }}</span>
+                    <span id="quoteMsg"> {{ quote }}</span>
                     <!-- <p id="famoussaying"> -->
                     <a href="javascript:changeQuote()"><span class="badge bg-secondary">수정</span></a>
                     <!-- </p> -->
@@ -142,13 +142,13 @@
                     <a href="#" onclick="changeAddr(); return false;">
                         <img src="{{url_for('static', filename='img/addr.png')}}" alt="address" height="16" class="me-2">
                     </a>
-                    <span id="addr">{{session['addr']}}</span> <a href="#" id="p_weather"><span class="badge bg-secondary">날씨</span></a>
+                    <span id="addr">{{ addr }}</span> <a href="#" id="p_weather"><span class="badge bg-secondary">날씨</span></a>
                     <div id="addrInput" class="mt-2 d-none">
                         <input type="text" id="addrInputTag" class="form-control form-control-sm" style="width:40%;" 
                             onkeyup="if(window.event.keyCode==13) {addrSubmit()}">
                         <a href="javascript:addrSubmit()"><span class="badge bg-warning">확인</span></a>
                     </div>
-                    <small><p class="res_weather">{{ session['weathers'] | safe() }}</p></small>
+                    <small><p class="res_weather">{{ weathers | safe() }}</p></small>
 
                     <!-- <div class="mt-4">
                         <button type="button" class="btn btn-sm btn-outline-primary">Edit Profile</button>

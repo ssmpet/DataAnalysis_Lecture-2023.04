@@ -14,6 +14,12 @@ def melon():
     charts = mu.melon_util()
     return render_template('melon.html', charts=charts, order=0)
 
+@app.route('/pleas_wait')
+def pleas_wait():
+
+    return render_template('pleas_wait.html', order=1)
+
+
 @app.route('/youtube_ranking', methods=['GET', 'POST'])
 def youtube_ranking():
 
