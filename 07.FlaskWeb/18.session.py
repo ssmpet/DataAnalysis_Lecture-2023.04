@@ -9,6 +9,7 @@ app = Flask(__name__)
 app.secret_key = 'qwert12345'
 app.config['SESSION_COOKIE_PATH'] = '/'
 
+
 app.register_blueprint(user_bp, url_prefix='/user')
 app.register_blueprint(schedule_bp, url_prefix='/schedule')
 user_bp.static_folder = app.static_folder
@@ -122,4 +123,4 @@ def change_profile():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

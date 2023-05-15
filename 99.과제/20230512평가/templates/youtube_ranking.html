@@ -21,9 +21,9 @@
             type: 'POST',
             url: '/youtube_ranking',
             data: {rank:top_val},
-            
+
             success: function(result){
-                
+
                 fname += result;
                 $('#rank_view').attr('class', 'container text-center');
                 $('#rank_res').attr('src', fname); 

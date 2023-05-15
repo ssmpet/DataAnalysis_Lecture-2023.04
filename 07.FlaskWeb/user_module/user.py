@@ -4,11 +4,15 @@ import hashlib, base64, json
 from user_util import get_weather
 
 user_bp = Blueprint('user_bp', __name__)
+global g_quote
+global g_quotes 
+global g_addr
+global g_weathers
 
 @user_bp.route('/login', methods=['GET', 'POST'])    #localhost:5000/user/login이 처리되는 곳
 def login():
     if request.method == 'GET':
-        return render_template('prototype/user/login.html', menu=None, weather=get_weather(user_bp), quote=quote, addr=g_addr)
+        return render_template('prototype/user/login.html', menu=None, weather=get_weather(user_bp), quote=g_quote, addr=g_addr)
     else:
 
         uid = request.form['uid']
