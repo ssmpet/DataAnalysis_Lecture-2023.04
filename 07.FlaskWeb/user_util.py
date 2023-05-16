@@ -36,7 +36,7 @@ def get_lat_lng(app, addr):
 
     lat = float(result['documents'][0]['y'])
     lng = float(result['documents'][0]['x'])
-    print(lat, lng)
+    # print(lat, lng)
 
     return lat, lng
 

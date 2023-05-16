@@ -29,7 +29,7 @@ def get_calendar(app):
     start_date = datetime.strptime(f'{tyear:02d}-{tmon:02d}-01', '%Y-%m-%d')
     end_date = datetime.strptime(f'{tyear:02d}-{tmon:02d}-{end_day:02d}', '%Y-%m-%d')
 
-    lines = []
+    lines, opacitys = [], []
 
     #지난 달 
     before_month_day = 0
@@ -37,9 +37,11 @@ def get_calendar(app):
         before_month_day = (start_date - timedelta(start_day_week+1))
 
         lines.extend(pd.date_range(before_month_day.strftime('%Y-%m-%d'), periods=start_day_week+1))
+        opacitys = ['0.5' for i in range(start_day_week+1)]
 
     # 현재 달
     lines.extend(pd.date_range(start_date.strftime('%Y-%m-%d'), periods=end_day))
+    opacitys.extend(['' for i in range(end_day)])
 
     # 다음 달
     nday = calendar.weekday(tyear, tmon, end_day)
@@ -49,8 +51,9 @@ def get_calendar(app):
 
     # 마지막 날짜 구하기
     lines.extend(pd.date_range((end_date+timedelta(1)).strftime('%Y-%m-%d'), periods=next_cnt))
+    opacitys.extend(['0.5' for i in range(next_cnt)])
 
-    l_dt = pd.DataFrame(lines, columns=['locdate'])
+    l_dt = pd.DataFrame({'locdate': lines, 'opacity': opacitys})
     l_dt['day'] = l_dt.locdate.apply(lambda x: int(x.strftime('%d')))
     # l_dt.head()
 
@@ -103,5 +106,6 @@ def get_calendar(app):
     result_dt.isHoliday.fillna('N', inplace=True)
 
     res_list = result_dt.to_dict('records')
+    # print(res_list)
 
     return res_list

@@ -15,7 +15,6 @@ app.register_blueprint(schedule_bp, url_prefix='/schedule')
 user_bp.static_folder = app.static_folder
 schedule_bp.static_folder = app.static_folder
 
-
 ###########################################
 ## 서버를 처음 실행시킬 때 한번 실행된다.
 
@@ -31,8 +30,7 @@ with app.test_request_context():
     g_quote = random.sample(g_quotes, 1)[0]
     g_addr = '수원시 장안구'
     g_weathers = ''
-    session.clear()
-
+   
 # @app.before_request_funcs(test_request())
 @app.route('/')
 def index():
@@ -43,13 +41,15 @@ def home():
 
     if 'quote' not in session.keys() : session['quote'] = g_quote
     if 'addr' not in session.keys() : session['addr'] = g_addr
- 
+    if 'weathers' not in session.keys() : session['weathers'] = g_weathers
+
     menu = {'ho': 1, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 0}
     return render_template('prototype/home.html', menu=menu, weather=get_weather(app), quote=g_quote, addr=g_addr, weathers=g_weathers)
 
 @app.route('/aboutme')
 def aboutme():
     menu = {'ho': 0, 'us': 1, 'cr': 0, 'ai': 0, 'sc': 0}
+    # print(g_quote)
     return render_template('prototype/user.html', menu=menu, weather=get_weather(app), quote=g_quote, addr=g_addr, weathers=g_weathers)
 
 
@@ -98,20 +98,23 @@ def siksin():
 @app.route('/get_weather')
 def get_weath():
     area = request.args.get('addr') + '청'
+    global g_weathers
     g_weathers = get_weather(app, area)
-    session['weather'] = g_weathers
+    session['weathers'] = g_weathers
     return g_weathers
     # return jsonify(get_weather(app))
 
 # 명언 수정
 @app.route('/change_quote')
 def change_quote():
+    global g_quote
     g_quote = random.sample(g_quotes, 1)[0]
     session['quote'] = g_quote
     return g_quote
 
 @app.route('/change_addr')
 def change_addr():
+    global g_addr
     g_addr = request.args.get('addr')
     session['addr'] = g_addr
     return g_addr
@@ -129,4 +132,7 @@ def change_profile():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    try:
+        app.run(debug=False)
+    finally:
+        print('main end')

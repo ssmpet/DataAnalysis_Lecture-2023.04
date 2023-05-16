@@ -6,28 +6,42 @@
     th { text-align: center; width: 14.28%;}
     td { height: 120px;}
 </style>
+<script>
+    function twoDigit(num) {
+        return (num<10)?'0'+ num : String(num);
+    }
+
+    window.onload = function (){
+        const week = '일월화수목금토'.split('');
+        let today = new Date()
+        
+        document.getElementById('today').innerHTML = 
+                `${today.getFullYear()}-${twoDigit(today.getMonth()+1)}-${twoDigit(today.getDate())}(${week[today.getDay()]})`
+
+        document.getElementById('to_month').innerHTML = 
+                `${today.getFullYear()}.${twoDigit(today.getMonth()+1)}`
+    }   
+</script>
 {% endblock%}
 
 {% block subtitle %} 일정표 {% endblock %}
 {% block content %}
 
-
     <div class="d-flex justify-content-between mb-2">
-        <div class="flex-fill">
-            2023-03-15(수)
+        <div class="flex-fill" id="today">
         </div>
         <div class="flex-fill"> 
             <!-- <a href="#"><i class="fa-sharp fa-solid fa-angles-left"></i></a> -->
-            <a href="#"><i class="fa-sharp fa-solid fa-angle-left ms-2"></i></a>
+            <a href="#" onclick="before_cal()"><i class="fa-sharp fa-solid fa-angle-left ms-2"></i></a>
             <a href="#">
-                <span class="badge bg-primary mx-2">2023.03</span>
+                <span class="badge bg-primary mx-2" id="to_month"></span>
             </a>
-            <a href="#"><i class="fa-sharp fa-solid fa-angle-right me-2"></i></a>
+            <a href="#" onclick="after_cal()"><i class="fa-sharp fa-solid fa-angle-right me-2"></i></a>
             <!-- <a href="#"><i class="fa-sharp fa-solid fa-angles-right"></i></a> -->
         </div>
         <div>        
-            <a href="#"><i class="fa-sharp fa-solid fa-pen me-2"></i></a>
-            <a href="#"><i class="fa-sharp fa-solid fa-table-list"></i></a>
+            <!-- <a href="#"><i class="fa-sharp fa-solid fa-pen me-2"></i></a> -->
+            <!-- <a href="#"><i class="fa-sharp fa-solid fa-table-list"></i></a> -->
         </div>
     </div>
 
@@ -45,20 +59,31 @@
         {% for cal in cals %}
             {% if loop.index%7 == 1 %}
                 <tr>
-                    <td> {{ cal.day }} </td>
-            {% elif loop.index%7 == 2 %}
-                    <td> {{ cal.day }} </td>
-            {% elif loop.index%7 == 3 %}
-                    <td> {{ cal.day }} </td>
-            {% elif loop.index%7 == 4 %}
-                    <td> {{ cal.day }} </td>
-            {% elif loop.index%7 == 5 %}
-                    <td> {{ cal.day }} </td>
-            {% elif loop.index%7 == 6 %}
-                    <td> {{ cal.day }} </td>
+                    <td {% if cal.opacity %}style="opacity:{{cal.opacity}}"{% endif %}> 
+                        <div class="d-flex justify-content-between">
+                            <div class="text-danger me-3">{{ cal.day }} </div>
+                            <div> {{ cal.dateName }}</div>
+                        </div>  
+                        <span style="font-size:12px"></span>
+                    </td>
             {% elif loop.index%7 == 0 %}
-                    <td> {{ cal.day }} </td>
+                    <td {% if cal.opacity %}style="opacity:{{cal.opacity}}"{% endif %}> 
+                        <div class="d-flex justify-content-between">
+                            <div class=" {% if cal.isHoliday == 'Y' %} text-danger {% else %} text-primary {% endif %}me-3">{{ cal.day }} </div>
+                            <div {% if cal.isHoliday == 'Y' %} class="text-danger" {% endif %}> {{ cal.dateName }}</div>
+                        </div>  
+                        <span style="font-size:12px"></span>
+                    </td>
                 </tr>
+            {% else %}
+                    <td {% if cal.opacity %}style="opacity:{{cal.opacity}}"{% endif %}> 
+                        <div class="d-flex justify-content-between">
+                            <div class=" {% if cal.isHoliday == 'Y' %} text-danger {% endif %} me-3">{{ cal.day }} </div>
+                            <div {% if cal.isHoliday == 'Y' %} class="text-danger" {% endif %}> {{ cal.dateName }}</div>
+                        </div>  
+                        <span style="font-size:12px"></span>
+                    </td>
+            
             {% endif %}
                    
         {% endfor %}

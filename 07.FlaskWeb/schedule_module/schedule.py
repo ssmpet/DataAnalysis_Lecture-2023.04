@@ -13,7 +13,11 @@ def schedule():
         flash('스케줄을 확인하려면 로그인을 하여야 합니다.')
         return redirect('/user/login')
 
+    if 'quote' in session.keys(): quote = session['quote']
+    if 'addr' in session.keys(): addr = session['addr']
+    if 'weathers' in session.keys(): weathers = session['weathers']
+
     menu = {'ho': 0, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 1}
     cals = cu.get_calendar(schedule_bp)
-    return render_template('prototype/schedule/schedule.html', menu=menu, cals=cals)
+    return render_template('prototype/schedule/schedule.html', menu=menu, cals=cals, weather=get_weather(schedule_bp), quote=quote, addr=addr, weathers=weathers)
 
