@@ -31,6 +31,7 @@ with app.test_request_context():
     g_quote = random.sample(g_quotes, 1)[0]
     g_addr = '수원시 장안구'
     g_weathers = ''
+    session.clear()
 
 # @app.before_request_funcs(test_request())
 @app.route('/')
@@ -40,6 +41,9 @@ def index():
 @app.route('/home')
 def home():
 
+    if 'quote' not in session.keys() : session['quote'] = g_quote
+    if 'addr' not in session.keys() : session['addr'] = g_addr
+ 
     menu = {'ho': 1, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 0}
     return render_template('prototype/home.html', menu=menu, weather=get_weather(app), quote=g_quote, addr=g_addr, weathers=g_weathers)
 
@@ -95,7 +99,7 @@ def siksin():
 def get_weath():
     area = request.args.get('addr') + '청'
     g_weathers = get_weather(app, area)
-
+    session['weather'] = g_weathers
     return g_weathers
     # return jsonify(get_weather(app))
 
@@ -103,11 +107,13 @@ def get_weath():
 @app.route('/change_quote')
 def change_quote():
     g_quote = random.sample(g_quotes, 1)[0]
+    session['quote'] = g_quote
     return g_quote
 
 @app.route('/change_addr')
 def change_addr():
     g_addr = request.args.get('addr')
+    session['addr'] = g_addr
     return g_addr
 
 @app.route('/change_profile', methods=['POST'])
@@ -123,4 +129,4 @@ def change_profile():
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

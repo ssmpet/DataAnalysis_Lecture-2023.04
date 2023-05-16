@@ -12,7 +12,11 @@ global g_weathers
 @user_bp.route('/login', methods=['GET', 'POST'])    #localhost:5000/user/login이 처리되는 곳
 def login():
     if request.method == 'GET':
-        return render_template('prototype/user/login.html', menu=None, weather=get_weather(user_bp), quote=g_quote, addr=g_addr)
+        if 'quote' in session.keys():
+            quote = session['quote']
+        if 'addr' in session.keys():
+            addr = session['addr']
+        return render_template('prototype/user/login.html', menu=None, weather=get_weather(user_bp), quote=quote, addr=addr)
     else:
 
         uid = request.form['uid']
@@ -42,7 +46,7 @@ def login():
 
 @user_bp.route('/register')
 def register():
-    return render_template('prototype/user/register.html', menu=None, weather='', quote='', addr='', weathers='')
+    return render_template('prototype/user/register.html', menu=None, weather=get_weather(user_bp), quote='', addr='', weathers='')
 
 @user_bp.route('/logout')
 def logout():
