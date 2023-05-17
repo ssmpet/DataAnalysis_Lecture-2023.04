@@ -7,96 +7,109 @@
     td { height: 120px;}
 </style>
 <script>
-    function before_cal() {
+    function re_cal(before_after) {
 
         let today = $('#to_month').text();
         let html = '';
-        console.log(today);
+        let newDay = new Date(today);
 
+        if (before_after == 0)
+            newDay.setMonth(newDay.getMonth()-1);
+        else
+            newDay.setMonth(newDay.getMonth()+1)
+        today = `${newDay.getFullYear()}.${newDay.getMonth()+1}`;
+        // console.log(today);
         $.ajax({
             type: 'POST',
             url: '/schedule/schedule',
             data: { today: today },
-            success: function(result) {
-                console.log("sucess");
+            success: function(cals) {
+                // console.log("sucess");
 
-                // cals = result;
-                // for (let i in cals ) {
-                //     if ( i%7==1 ){
-                //         html += `<tr><td `;
-                //         if (cals[i].opacity) {
-                //             html += `style="opacity:${cal[i].opacity}>`
-                //         }
-                //         html +=  `<div class="d-flex justify-content-between"> 
-                //                     <div class="text-danger me-3">${ cal[i].day } </div>
-                //                     <div> ${cal[i].dateName }</div>
-                //                 </div>  
-                //                 <span style="font-size:12px"></span>
-                //                 </td>`;
-                //     }
-                //     else if (i%7==0) {
-                //         html += `<td `;
-                //         if (cals[i].opacity){
-                //             html += `style="opacity:${cal[i].opacity}>`
-
-                //         }
-                //         html += `<div class="d-flex justify-content-between">
-                //                     <div class=" `
-                //         if (cal[i].isHoliday == 'Y') {
-                //             html += ` text-danger `
-                //         }
-                //         else {
-                //             html += ` text-primary `
-                //         }
-
-                //         html += `me-3"> ${ cal[i].day }} </div>
-                //                     <div `
-                //         if (cal[i].isHoliday == 'Y' ) {
-                //             html += `class="text-danger" `
-                //         }
-
-                //         html += `${ cal[i].dateName }</div>
-                //                     </div>  
-                //                     <span style="font-size:12px"></span>
-                //                     </td>
-                //                 </tr>`
-                //     }
-                //     else {
-
-                //         html += `<td `
-
-                //         if (cals[i].opacity) {
-                //             html += ` style="opacity:${cal[i].opacity}">`;
-                //         }
-
-                //         html += `<div class="d-flex justify-content-between">
-                //             <div class=" `;
-                //         if (cal[i].isHoliday == 'Y') {
-                //             html += ` text-danger `;
-                //         }
-
-                //         html += `me-3">${ cal[i].day }} </div><div `;
-                //         if (cal[i].isHoliday == 'Y') {
-                //             html += ` text-danger `;
-                //         }
-                //         html += ` ${ cal[i].dateName }</div>
-                //         </div>  
-                //         <span style="font-size:12px"></span></td>`
+                for (let i=0; i<cals.length; i++ ) {
+                    // console.log(`i = ${i}, ${(i+1)%7}, day=${cals[i].day}`);
+                    if ( (i+1)%7==1 ){
+                        html += `<tr>
+                                    <td`;
+                        if (cals[i].opacity) {
+                            html += ` style="opacity:${cals[i].opacity}"`
+                        }
+                        html +=  `><div class="d-flex justify-content-between"> 
+                                    <div class="text-danger me-3">${ cals[i].day }</div>
+                                    <div`
+                        if (cals[i].isHoliday == 'Y') {
+                            html += ` class=" text-danger"`
+                        }
                         
-                //     }                   
+                        html += `>${cals[i].dateName }</div>
+                                </div>  
+                                <span style="font-size:12px"></span>
+                                </td>`;
+                    }
+                    else if ((i+1)%7==0) {
+                        html += `<td`;
+                        if (cals[i].opacity){
+                            html += ` style="opacity:${cals[i].opacity}"`
+
+                        }
+                        html += `><div class="d-flex justify-content-between">
+                                    <div class="`
+                        if (cals[i].isHoliday == 'Y') {
+                            html += ` text-danger `
+                        }
+                        else {
+                            html += ` text-primary `
+                        }
+
+                        html += `me-3"> ${ cals[i].day } </div>
+                                    <div`
+                        if (cals[i].isHoliday == 'Y' ) {
+                            html += ` class="text-danger"`
+                        }
+
+                        html += `>${ cals[i].dateName }</div>
+                                    </div>  
+                                    <span style="font-size:12px"></span>
+                                    </td>
+                                </tr>`
+                    }
+                    else {
+
+                        html += `<td`
+
+                        if (cals[i].opacity) {
+                            html += ` style="opacity:${cals[i].opacity}"`;
+                        }
+
+                        html += `><div class="d-flex justify-content-between">
+                            <div class="`;
+                        if (cals[i].isHoliday == 'Y') {
+                            html += ` text-danger `;
+                        }
+
+                        html += `me-3">${ cals[i].day } </div><div`;
+                        if (cals[i].isHoliday == 'Y') {
+                            html += ` class=text-danger `;
+                        }
+                        html += `>${ cals[i].dateName }</div>
+                        </div>  
+                        <span style="font-size:12px"></span>
+                        </td>`
+                        
+                    }                   
                    
 
-                // }
+                }
                 
                 // console.log(html);
-                // $('#cal_res').empty()
-                // $("#cal_res").append(html);
-            }
+                $('#cal_res').empty()
+                
+                $("#cal_res").append(html);
+                $('#to_month').html(today);
+            } // end of success
         });
     }
-    function after_cal() {
-        console.log($('#to_month').text())
-    }
+    
 
     function twoDigit(num) {
         return (num<10)?'0'+ num : String(num);
@@ -123,11 +136,11 @@
         </div>
         <div class="flex-fill"> 
             <!-- <a href="#"><i class="fa-sharp fa-solid fa-angles-left"></i></a> -->
-            <a href="#" onclick="before_cal()"><i class="fa-sharp fa-solid fa-angle-left ms-2"></i></a>
+            <a href="#" onclick="re_cal(0)"><i class="fa-sharp fa-solid fa-angle-left ms-2"></i></a>
             <a href="#">
                 <span class="badge bg-primary mx-2" id="to_month"></span>
             </a>
-            <a href="#" onclick="after_cal()"><i class="fa-sharp fa-solid fa-angle-right me-2"></i></a>
+            <a href="#" onclick="re_cal(1)"><i class="fa-sharp fa-solid fa-angle-right me-2"></i></a>
             <!-- <a href="#"><i class="fa-sharp fa-solid fa-angles-right"></i></a> -->
         </div>
         <div>        
@@ -184,3 +197,4 @@
         </tbody>
     </table>
 {% endblock %}
+

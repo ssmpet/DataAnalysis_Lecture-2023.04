@@ -134,6 +134,6 @@ def change_profile():
 
 if __name__ == '__main__':
     try:
-        app.run(debug=True)
+        app.run(debug=False)
     finally:
         print('main end')

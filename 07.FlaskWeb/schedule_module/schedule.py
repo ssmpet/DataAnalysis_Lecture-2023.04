@@ -30,8 +30,8 @@ def schedule():
     else:
         print('current_day ' + cday)
         cals = cu.get_calendar(schedule_bp, cday)
-        print(cals)
-        # return cals
-        return ''
+        # print(cals)
+        return cals
+        # return ''
 
 

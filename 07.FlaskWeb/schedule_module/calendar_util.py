@@ -108,7 +108,7 @@ def get_calendar(app, cday):
     result_dt.dateName.fillna('', inplace=True)
     result_dt.isHoliday.fillna('N', inplace=True)
 
-    result_dt.drop(labels=['locdate', 'seq', 'kst'], axis=1, inplace=True)
+    result_dt.drop(labels=['seq', 'kst'], axis=1, inplace=True)
 
     res_list = result_dt.to_dict('records')
     # print(res_list)
