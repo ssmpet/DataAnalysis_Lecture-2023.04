@@ -1,5 +1,5 @@
-import requests, json
-import os, random
+import requests
+import os, random, json
 from urllib.parse import quote 
 import numpy as np
 import pandas as pd

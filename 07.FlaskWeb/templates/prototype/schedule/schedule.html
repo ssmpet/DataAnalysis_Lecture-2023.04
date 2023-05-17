@@ -7,6 +7,97 @@
     td { height: 120px;}
 </style>
 <script>
+    function before_cal() {
+
+        let today = $('#to_month').text();
+        let html = '';
+        console.log(today);
+
+        $.ajax({
+            type: 'POST',
+            url: '/schedule/schedule',
+            data: { today: today },
+            success: function(result) {
+                console.log("sucess");
+
+                // cals = result;
+                // for (let i in cals ) {
+                //     if ( i%7==1 ){
+                //         html += `<tr><td `;
+                //         if (cals[i].opacity) {
+                //             html += `style="opacity:${cal[i].opacity}>`
+                //         }
+                //         html +=  `<div class="d-flex justify-content-between"> 
+                //                     <div class="text-danger me-3">${ cal[i].day } </div>
+                //                     <div> ${cal[i].dateName }</div>
+                //                 </div>  
+                //                 <span style="font-size:12px"></span>
+                //                 </td>`;
+                //     }
+                //     else if (i%7==0) {
+                //         html += `<td `;
+                //         if (cals[i].opacity){
+                //             html += `style="opacity:${cal[i].opacity}>`
+
+                //         }
+                //         html += `<div class="d-flex justify-content-between">
+                //                     <div class=" `
+                //         if (cal[i].isHoliday == 'Y') {
+                //             html += ` text-danger `
+                //         }
+                //         else {
+                //             html += ` text-primary `
+                //         }
+
+                //         html += `me-3"> ${ cal[i].day }} </div>
+                //                     <div `
+                //         if (cal[i].isHoliday == 'Y' ) {
+                //             html += `class="text-danger" `
+                //         }
+
+                //         html += `${ cal[i].dateName }</div>
+                //                     </div>  
+                //                     <span style="font-size:12px"></span>
+                //                     </td>
+                //                 </tr>`
+                //     }
+                //     else {
+
+                //         html += `<td `
+
+                //         if (cals[i].opacity) {
+                //             html += ` style="opacity:${cal[i].opacity}">`;
+                //         }
+
+                //         html += `<div class="d-flex justify-content-between">
+                //             <div class=" `;
+                //         if (cal[i].isHoliday == 'Y') {
+                //             html += ` text-danger `;
+                //         }
+
+                //         html += `me-3">${ cal[i].day }} </div><div `;
+                //         if (cal[i].isHoliday == 'Y') {
+                //             html += ` text-danger `;
+                //         }
+                //         html += ` ${ cal[i].dateName }</div>
+                //         </div>  
+                //         <span style="font-size:12px"></span></td>`
+                        
+                //     }                   
+                   
+
+                // }
+                
+                // console.log(html);
+                // $('#cal_res').empty()
+                // $("#cal_res").append(html);
+            }
+        });
+    }
+    function after_cal() {
+        console.log($('#to_month').text())
+    }
+
     function twoDigit(num) {
         return (num<10)?'0'+ num : String(num);
     }
@@ -46,16 +137,19 @@
     </div>
 
     <table class="table table-bordered">
-        <tr class="text-center">
-            <th class="text-danger">일</th>
-            <th>월</th>
-            <th>화</th>
-            <th>수</th>
-            <th>목</th>
-            <th>금</th>
-            <th class="text-primary">토</th>
-        </tr>
+        <thead>
+            <tr class="text-center">
+                <th class="text-danger">일</th>
+                <th>월</th>
+                <th>화</th>
+                <th>수</th>
+                <th>목</th>
+                <th>금</th>
+                <th class="text-primary">토</th>
+            </tr>
+        </thead>
         
+        <tbody id="cal_res">
         {% for cal in cals %}
             {% if loop.index%7 == 1 %}
                 <tr>
@@ -87,6 +181,6 @@
             {% endif %}
                    
         {% endfor %}
-        
+        </tbody>
     </table>
 {% endblock %}

@@ -88,6 +88,7 @@ def siksin():
         place = request.values['place']
 
         siksins = siksin_util.get_siksin_util(place)
+        # print(siksins)
         return siksins
 
 
@@ -133,6 +134,6 @@ def change_profile():
 
 if __name__ == '__main__':
     try:
-        app.run(debug=False)
+        app.run(debug=True)
     finally:
         print('main end')

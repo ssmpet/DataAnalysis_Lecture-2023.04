@@ -5,7 +5,7 @@ from user_util import get_weather
 
 schedule_bp = Blueprint('scheule_bp', __name__)
 
-@schedule_bp.route('/schedule')
+@schedule_bp.route('/schedule', methods=['GET', 'POST'])
 def schedule():    
     try : 
         tmp = session['uid']
@@ -17,7 +17,21 @@ def schedule():
     if 'addr' in session.keys(): addr = session['addr']
     if 'weathers' in session.keys(): weathers = session['weathers']
 
-    menu = {'ho': 0, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 1}
-    cals = cu.get_calendar(schedule_bp)
-    return render_template('prototype/schedule/schedule.html', menu=menu, cals=cals, weather=get_weather(schedule_bp), quote=quote, addr=addr, weathers=weathers)
+    cday = ''
+    try:
+        cday = request.values['today']
+    except:
+        pass
+
+    if request.method == 'GET':
+        menu = {'ho': 0, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 1}
+        cals = cu.get_calendar(schedule_bp, cday)
+        return render_template('prototype/schedule/schedule.html', menu=menu, cals=cals, weather=get_weather(schedule_bp), quote=quote, addr=addr, weathers=weathers)
+    else:
+        print('current_day ' + cday)
+        cals = cu.get_calendar(schedule_bp, cday)
+        print(cals)
+        # return cals
+        return ''
+
 

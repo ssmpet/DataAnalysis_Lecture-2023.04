@@ -14,13 +14,16 @@ def is_info_day(in_list, s_date, s_datename):
             return True
     return False
 
-def get_calendar(app):
+def get_calendar(app, cday):
     
-    today = datetime.now()
-
-    tyear = today.year
-    tmon = today.month
-    tday = today.day
+    if cday:
+        tyear = int(cday.split('.')[0])
+        tmon = int(cday.split('.')[1])
+    else:
+        today = datetime.now()
+        tyear = today.year
+        tmon = today.month
+        # tday = today.day
 
     # 0이면 월요일, 6이면 일요일이 시작일이다.
     start_day_week, end_day = calendar.monthrange(tyear, tmon)
@@ -64,7 +67,7 @@ def get_calendar(app):
         apikey = f.read()
 
     f_list = ['getRestDeInfo', 'getAnniversaryInfo', 'get24DivisionsInfo', 'getSundryDayInfo']
-    base_url = 'http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/' #getSundryDayInfo?_type=json&numOfRows=50&solYear='
+    base_url = 'http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/'
     param1 = '?_type=json&numOfRows=80&solYear='
 
     holidays = None
@@ -104,6 +107,8 @@ def get_calendar(app):
     result_dt.dateKind.fillna('05', inplace=True)
     result_dt.dateName.fillna('', inplace=True)
     result_dt.isHoliday.fillna('N', inplace=True)
+
+    result_dt.drop(labels=['locdate', 'seq', 'kst'], axis=1, inplace=True)
 
     res_list = result_dt.to_dict('records')
     # print(res_list)

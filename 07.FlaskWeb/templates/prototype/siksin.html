@@ -18,6 +18,7 @@
             url: '/siksin', 
             data: {place: place},
             success: function(result){
+                console.log('result ok');
                 siksin = result;
                 for(i in siksin) {
                     html += '<tr>'
