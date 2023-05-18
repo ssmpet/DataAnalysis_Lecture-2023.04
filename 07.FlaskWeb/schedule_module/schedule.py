@@ -28,7 +28,7 @@ def schedule():
         # cals = cu.get_calendar(schedule_bp, cday)
         return render_template('prototype/schedule/schedule.html', menu=menu, weather=get_weather(schedule_bp), quote=quote, addr=addr, weathers=weathers)
     else:
-        print('current_day ' + cday)
+        # print('current_day ' + cday)
         cals = cu.get_calendar(schedule_bp, cday)
         # print(cals)
         return cals

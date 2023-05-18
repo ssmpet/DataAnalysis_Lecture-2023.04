@@ -38,6 +38,7 @@
                 for (let i=0; i<cals.length; i++ ) {
                     // console.log(`i = ${i}, ${(i+1)%7}, day=${cals[i].day}`);
                     days = Number(cals[i].locdate.substring(6));
+                    
 
                     // console.log(days);
                     // console.log(typeof days);
@@ -59,17 +60,25 @@
                     else if ( (i+1)%7==0 && cals[i].isHoliday == 'N')
                         html += ' text-primary'
 
-                    html += `">${ days }</div><div`
+                    html += `">${ days }</div><div style="font-size:15px;"`
 
                     if (cals[i].isHoliday == 'Y')
                         html += ` class=" text-danger"`;
 
-                    
-                    html += `>${cals[i].dateName }</div>
-                            </div>  
-                            <span style="font-size:10px"></span>
-                            </td>`;
+                    if ( cals[i].isHoliday == 'Y' ) {
+                        desc = cals[i].dateName;
+                        nfind = desc.indexOf(' ');
+                        if(nfind < 0) 
+                            html += `>${cals[i].dateName }</div></div>`;
+                        else {
+                            html += `>${desc.substring(0, nfind)}</div></div>`
+                            html += `<p style="font-size:15px; text-align:right">${desc.substring(nfind+1)}</p>`;
+                        }
+                    }
+                    else
+                        html += `>${cals[i].dateName }</div></div>`;
 
+                    
                     if( (i+1)%7==0) 
                         html += '</tr>';
                     
@@ -120,9 +129,9 @@
             <a href="#" onclick="re_cal(2)"><i class="fa-sharp fa-solid fa-angle-right me-2"></i></a>
             <!-- <a href="#"><i class="fa-sharp fa-solid fa-angles-right"></i></a> -->
         </div>
-        <div> 
-            <!-- <a href="#"><i class="fa-sharp fa-solid fa-pen me-2"></i></a> -->
-            <!-- <a href="#"><i class="fa-sharp fa-solid fa-table-list"></i></a> -->
+        <div>   
+            <a href="#"><i class="fa-sharp fa-solid fa-pen me-2 d-none"></i></a>
+            <a href="#"><i class="fa-sharp fa-solid fa-table-list d-none"></i></a>
         </div>
     </div>
 
@@ -140,37 +149,7 @@
         </thead>
 
         <tbody id="cal_res">
-        <!-- {% for cal in cals %}
-            {% if loop.index%7 == 1 %}
-                <tr>
-                    <td {% if cal.opacity %}style="opacity:{{cal.opacity}}"{% endif %} > 
-                        <div class="d-flex justify-content-between">
-                            <div class="text-danger me-3">{% if cal.locdate[6] == '0' %}{{ cal.locdate[7:] }} {% else %} {{ cal.locdate[6:] }}{% endif %}</div>
-                            <div> {{ cal.dateName }}</div>
-                        </div>  
-                        <span style="font-size:12px"></span>
-                    </td>
-            {% elif loop.index%7 == 0 %}
-                    <td {% if cal.opacity %}style="opacity:{{cal.opacity}}"{% endif %}> 
-                        <div class="d-flex justify-content-between">
-                            <div class=" {% if cal.isHoliday == 'Y' %} text-danger {% else %} text-primary {% endif %}me-3">{% if cal.locdate[6] == '0' %}{{ cal.locdate[7:] }} {% else %} {{ cal.locdate[6:] }}{% endif %} </div>
-                            <div {% if cal.isHoliday == 'Y' %} class="text-danger" {% endif %}> {{ cal.dateName }}</div>
-                        </div>  
-                        <span style="font-size:12px"></span>
-                    </td>
-                </tr>
-            {% else %}
-                    <td {% if cal.opacity %}style="opacity:{{cal.opacity}}"{% endif %}> 
-                        <div class="d-flex justify-content-between">
-                            <div class=" {% if cal.isHoliday == 'Y' %} text-danger {% endif %} me-3">{% if cal.locdate[6] == '0' %}{{ cal.locdate[7:] }} {% else %} {{ cal.locdate[6:] }}{% endif %} </div>
-                            <div {% if cal.isHoliday == 'Y' %} class="text-danger" {% endif %}> {{ cal.dateName }}</div>
-                        </div>  
-                        <span style="font-size:12px"></span>
-                    </td>
-            
-            {% endif %}
-                   
-        {% endfor %} -->
+
         </tbody>
     </table>
 {% endblock %}
