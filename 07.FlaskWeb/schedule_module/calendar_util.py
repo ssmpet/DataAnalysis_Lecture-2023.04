@@ -5,14 +5,18 @@ from pandas import json_normalize
 import calendar
 
 def is_info_day(in_list, s_date, s_datename):
-    # print(type(lists))
+
     for i in range(len(in_list)):
-        # print( in_list[i]['locdate'], s_date)
+
         if in_list[i]['locdate'] == s_date:
             in_list[i]['dateName'] = in_list[i]['dateName'] + ' ' + s_datename
-            # print(in_list[i]['dateName'])
             return True
     return False
+
+def get_holiday_file(app, tyear):
+    filename = os.path.join(app.static_folder, 'data/holidays.csv')
+    df = pd.read_csv(filename)
+    return [df.locdate.contains(str(tyear))]
 
 def get_calendar(app, cday):
     
@@ -25,6 +29,9 @@ def get_calendar(app, cday):
         tmon = today.month
         # tday = today.day
 
+    holidays = get_holiday_file(app, tyear)
+    if( len(holidays) )
+
     # 0이면 월요일, 6이면 일요일이 시작일이다.
     start_day_week, end_day = calendar.monthrange(tyear, tmon)
 
@@ -34,16 +41,16 @@ def get_calendar(app, cday):
 
     lines, opacitys = [], []
 
-    #지난 달 
+    # 지난 달 
     before_month_day = 0
     if start_day_week < 6:
         before_month_day = (start_date - timedelta(start_day_week+1))
 
-        lines.extend(pd.date_range(before_month_day.strftime('%Y-%m-%d'), periods=start_day_week+1))
+        lines.extend([nd.strftime('%Y%m%d') for nd in pd.date_range(before_month_day.strftime('%Y-%m-%d'), periods=start_day_week+1)])
         opacitys = ['0.5' for i in range(start_day_week+1)]
 
     # 현재 달
-    lines.extend(pd.date_range(start_date.strftime('%Y-%m-%d'), periods=end_day))
+    lines.extend([nd.strftime('%Y%m%d') for nd in pd.date_range(start_date.strftime('%Y-%m-%d'), periods=end_day)])
     opacitys.extend(['' for i in range(end_day)])
 
     # 다음 달
@@ -51,14 +58,13 @@ def get_calendar(app, cday):
     next_cnt = 0
     if nday == 6: next_cnt = 6
     elif nday < 5: next_cnt = 5 - nday
-
-    # 마지막 날짜 구하기
-    lines.extend(pd.date_range((end_date+timedelta(1)).strftime('%Y-%m-%d'), periods=next_cnt))
+    lines.extend([nd.strftime('%Y%m%d') for nd in pd.date_range((end_date+timedelta(1)).strftime('%Y-%m-%d'), periods=next_cnt)])
     opacitys.extend(['0.5' for i in range(next_cnt)])
 
+    ## 
     l_dt = pd.DataFrame({'locdate': lines, 'opacity': opacitys})
-    l_dt['day'] = l_dt.locdate.apply(lambda x: int(x.strftime('%d')))
-    # l_dt.head()
+
+
 
     # 공휴일, 24절기, 잡절
     filename = os.path.join(app.static_folder, 'key/holidays.txt')
@@ -86,7 +92,6 @@ def get_calendar(app, cday):
         if ress: 
             ress = json.loads(ress)['response']['body']['items']['item']
         for i in range(len(ress)):
-            # print(ress[i]['locdate'])
             if is_info_day(in_list, ress[i]['locdate'], ress[i]['dateName']) :
                 pass
             else:
@@ -95,7 +100,7 @@ def get_calendar(app, cday):
     holidays = pd.DataFrame(in_list)
 
     holidays['locdate'] = holidays['locdate'].astype(str)
-    holidays['locdate'] = pd.to_datetime(holidays['locdate'], format='%Y%m%d')
+
 
     try:
         nindex = holidays.index[holidays.dateName=='기독탄신일'][0]
@@ -104,13 +109,15 @@ def get_calendar(app, cday):
         pass
 
     result_dt = pd.merge(l_dt, holidays, how='left', on='locdate')
-    result_dt.dateKind.fillna('05', inplace=True)
     result_dt.dateName.fillna('', inplace=True)
     result_dt.isHoliday.fillna('N', inplace=True)
 
-    result_dt.drop(labels=['seq', 'kst'], axis=1, inplace=True)
+    result_dt = result_dt[['locdate', 'opacity', 'dateName', 'isHoliday']]
 
     res_list = result_dt.to_dict('records')
     # print(res_list)
 
     return res_list
+
+
+

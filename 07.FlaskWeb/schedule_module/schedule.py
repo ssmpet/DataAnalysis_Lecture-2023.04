@@ -25,8 +25,8 @@ def schedule():
 
     if request.method == 'GET':
         menu = {'ho': 0, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 1}
-        cals = cu.get_calendar(schedule_bp, cday)
-        return render_template('prototype/schedule/schedule.html', menu=menu, cals=cals, weather=get_weather(schedule_bp), quote=quote, addr=addr, weathers=weathers)
+        # cals = cu.get_calendar(schedule_bp, cday)
+        return render_template('prototype/schedule/schedule.html', menu=menu, weather=get_weather(schedule_bp), quote=quote, addr=addr, weathers=weathers)
     else:
         print('current_day ' + cday)
         cals = cu.get_calendar(schedule_bp, cday)
