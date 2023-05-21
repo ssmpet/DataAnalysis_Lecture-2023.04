@@ -128,8 +128,8 @@ def get_calendar(app, cday):
     l_dt = pd.DataFrame({'locdate': lines, 'opacity': opacitys})
 
     records = pd.merge(l_dt, holidays, how='left', on='locdate')
-    records.dateName.fillna('', inplace=True)
     records.isHoliday.fillna('N', inplace=True)
+    records.fillna('', inplace=True)
 
     return records.to_dict('records')
    
