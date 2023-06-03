@@ -84,6 +84,12 @@
                     </a>
                 </li>
                 <li class="nav-item ms-3">
+                    <a class="nav-link {% if menu.bb %}active{% endif %}" href="{% if menu.bb %}#{% else %}/bbs/list{% endif %}">
+                        <i class="fa-sharp fa-solid fa-calendar-days"></i>
+                        <b>게시판</b>
+                    </a>
+                </li>
+                <li class="nav-item ms-3">
                     {% if session['uid'] %}
                     <a class="nav-link" href="{% if menu.lo %}#{% else %}/user/logout{% endif %}">
                         <i class="fa-sharp fa-solid fa-right-from-bracket"></i>
@@ -96,9 +102,12 @@
                     </a>
                 </li>                
             </ul>  
-            <span class="navbar-text me-2">
-                {% if session['uid'] %}
-                    {{ session['uid'] }}님 환영합니다.
+            <span class="navbar-text me-5">
+                {% if session['uname'] %}
+                    {{ session['uname'] }}님 환영합니다.
+                    <a href="/user/user_update" data-bs-toggle="tooltip" data-bs-placement="bottom"  title="정보수정">
+                        <img src="{{url_for('static', filename='img/edit.png')}}" width="20" height="20">
+                    </a>
                 {% else %}
                     {% block weather %}{% endblock %}
                 {% endif %}                
@@ -175,6 +184,13 @@
             Copyright &copy; 2023 KHW Corp. All rights reserved.
         </div>
     </nav>
+
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+              var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl)
+              })
+    </script>
 
     {% block additional_body %}{% endblock %}
 

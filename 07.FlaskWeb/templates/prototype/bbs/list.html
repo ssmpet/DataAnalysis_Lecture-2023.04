@@ -1,0 +1,34 @@
+{% extends "prototype/base.html" %}
+{% block title %} 자유게시판 {% endblock %}
+{% block weather %} {{ weather | safe() }} {% endblock %}
+{% block additional_head %}
+
+
+{% endblock%}
+
+{% block subtitle %}
+자유게시판 글 목록
+{% endblock %}
+{% block content %}
+<table class="table">
+    <thead class="table-warning">
+        <tr>
+            <th></th>
+            <th>가계명</th>
+            <th>평점</th>
+            <th>위치</th>
+            <th>메뉴종류</th>
+        </tr>
+    </thead>
+    <!-- {% for siksin in siksins %}
+    <tr>
+        <td><img class="siksin_img" src="{{ siksin.img }}" alt="{{ siksin.title }}"></td>
+        <td>{{ siksin.title }}</td>
+        <td>{{ siksin.score }}</td>
+        <td>{{ siksin.location }}</td>
+        <td>{{ siksin.menu }}</td>
+    </tr>
+    {% endfor %} -->
+
+</table>
+{% endblock %}

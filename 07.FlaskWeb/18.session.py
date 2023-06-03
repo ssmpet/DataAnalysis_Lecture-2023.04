@@ -4,6 +4,7 @@ import interpark_util, genie_util, siksin_util
 import random, os, json
 from user_module.user import user_bp
 from schedule_module.schedule import schedule_bp
+from bbs.bbs import bbs_bp
 
 app = Flask(__name__)
 app.secret_key = 'qwert12345'
@@ -12,8 +13,11 @@ app.config['SESSION_COOKIE_PATH'] = '/'
 
 app.register_blueprint(user_bp, url_prefix='/user')
 app.register_blueprint(schedule_bp, url_prefix='/schedule')
+app.register_blueprint(bbs_bp, url_prefix='/bbs')
+
 user_bp.static_folder = app.static_folder
 schedule_bp.static_folder = app.static_folder
+bbs_bp.static_folder = app.static_folder
 
 ###########################################
 ## 서버를 처음 실행시킬 때 한번 실행된다.
@@ -43,12 +47,12 @@ def home():
     if 'addr' not in session.keys() : session['addr'] = g_addr
     if 'weathers' not in session.keys() : session['weathers'] = g_weathers
 
-    menu = {'ho': 1, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 0}
+    menu = {'ho': 1, 'us': 0, 'cr': 0, 'ai': 0, 'sc': 0, 'bb': 0}
     return render_template('prototype/home.html', menu=menu, weather=get_weather(app), quote=g_quote, addr=g_addr, weathers=g_weathers)
 
 @app.route('/aboutme')
 def aboutme():
-    menu = {'ho': 0, 'us': 1, 'cr': 0, 'ai': 0, 'sc': 0}
+    menu = {'ho': 0, 'us': 1, 'cr': 0, 'ai': 0, 'sc': 0, 'bb': 0}
     # print(g_quote)
     return render_template('prototype/user.html', menu=menu, weather=get_weather(app), quote=g_quote, addr=g_addr, weathers=g_weathers)
 
@@ -58,14 +62,14 @@ def interparkbest():
 
     book_rank = interpark_util.interpark_util()
 
-    menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0}
+    menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0, 'bb': 0}
     return render_template('prototype/interpark.html', menu=menu, weather=get_weather(app), book_rank=book_rank, quote=g_quote, addr=g_addr, weathers=g_weathers)
 
 @app.route('/geniechart')
 def geniechart():
 
     charts = genie_util.get_genie_chart()
-    menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0}
+    menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0, 'bb': 0}
     return render_template('prototype/geniechart.html', menu=menu, weather=get_weather(app), charts=charts, quote=g_quote, addr=g_addr, weathers=g_weathers)
 
 
@@ -73,14 +77,14 @@ def geniechart():
 def genie_jquery():
 
     charts = genie_util.get_genie_chart()
-    menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0}
+    menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0, 'bb': 0}
     return render_template('prototype/genie_jquery.html', menu=menu, weather=get_weather(app), charts=charts, quote=g_quote, addr=g_addr, weathers=g_weathers)
 
 
 @app.route('/siksin', methods=['GET', 'POST'])
 def siksin():
 
-    menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0}
+    menu = {'ho': 0, 'us': 0, 'cr': 1, 'ai': 0, 'sc': 0, 'bb': 0}
     if request.method == 'GET':
         return render_template('prototype/siksin.html', menu=menu, weater=get_weather(app), quote=g_quote, addr=g_addr, weathers=g_weathers)
     else:
@@ -134,6 +138,6 @@ def change_profile():
 
 if __name__ == '__main__':
     try:
-        app.run(debug=True)
+        app.run(debug=False)
     finally:
         print('main end')
