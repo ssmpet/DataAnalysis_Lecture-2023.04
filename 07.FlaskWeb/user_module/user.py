@@ -78,7 +78,7 @@ def register():
         pwd_sha256 = hashlib.sha256(pwd.encode())
         hased_pwd = base64.b64encode(pwd_sha256.digest()).decode('utf-8')
         udate = datetime.now()
-        udate = udate.strftime('%Y-%m-%d')
+        udate = udate.strftime('%Y-%m-%d %H:%M:%S')
 
         # print(uid, uname, hased_pwd, udate, uemail)
         user_dao.insert_user((uid, uname, hased_pwd, uemail, udate))
