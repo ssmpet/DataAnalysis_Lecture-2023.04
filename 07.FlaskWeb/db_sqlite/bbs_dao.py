@@ -2,7 +2,7 @@
 import sqlite3 as sq
 
 
-def get_bbs_counts():
+def get_bbs_total():
     conn = sq.connect('./static/db/project.db')
     cur = conn.cursor()
 
