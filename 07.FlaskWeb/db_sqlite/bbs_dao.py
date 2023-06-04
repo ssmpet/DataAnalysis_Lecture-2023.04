@@ -16,12 +16,12 @@ def get_bbs_total():
     return row[0]
 
 
-def get_bbs_list():
+def get_bbs_list(offset=0):
     conn = sq.connect('./static/db/project.db')
     cur = conn.cursor()
 
-    sql = 'select bid, uid, title, name, date, review, reply from bbs'
-    cur.execute(sql)
+    sql = 'select bid, uid, title, name, date, review, reply from bbs ORDER BY bid DESC LIMIT 10 offset ?'
+    cur.execute(sql, (offset, ))
     rows = cur.fetchall()
 
     cur.close()
