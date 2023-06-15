@@ -47,7 +47,8 @@ def delete_user(uid):
     conn = sq.connect('./static/db/project.db')
     cur = conn.cursor()
 
-    sql = 'delete from user where uid=?;'
+    # sql = 'delete from user where uid=?;'
+    sql = 'update user set is_deleted=1 where uid=?;'
     cur.execute(sql, (uid, ))
     conn.commit()
 

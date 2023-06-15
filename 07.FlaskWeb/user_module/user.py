@@ -44,12 +44,14 @@ def login():
                 session['email'] = user_info[3]
                 return redirect('/home')
             else:
-                flash('비밀번호가 틀립니다.', category="error")   # 로그인 화면을 다시 보내줌
-                return redirect('/user/login')
+                # flash('비밀번호가 틀립니다.', category="error")   # 로그인 화면을 다시 보내줌
+                # return redirect('/user/login')
+                return '0'
 
         else:
-            flash('가입되어 있지 않은 사용자 ID입니다. 회원가입을 해 주세요.', category="info")    # 회원 가입 페이지로 안내 or 다시 로그인
-            return redirect('/user/register')
+            return '-1'
+            # flash('가입되어 있지 않은 사용자 ID입니다. 회원가입을 해 주세요.', category="info")    # 회원 가입 페이지로 안내 or 다시 로그인
+            # return redirect('/user/register')
 
 @user_bp.route('/register', methods=['GET', 'POST'])
 def register():
