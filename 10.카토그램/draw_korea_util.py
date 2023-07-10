@@ -50,8 +50,6 @@ GU_DICT = {
 
 def get_guname(g_name, s_name):
 
-    
-    
     si_name = [None] * len(g_name)
     for n in range(len(g_name)):
         if g_name[n][-3:] not in ['광역시', '특별시', '자치시']:
@@ -102,7 +100,7 @@ def draw_korea_map(target_data, blocked_map, cmapname):
                edgecolor='#aaaaaa', linewidth=0.5)
     
     # 지역 이름 표시
-    for idx, row in blocked_map.iterrows():
+    for _, row in blocked_map.iterrows():
         if len(row['ID'].split()) == 2:
             dispname = f"{row['ID'].split()[0]}\n{row['ID'].split()[1]}"
         elif row['ID'][:2] == '고성':
@@ -132,5 +130,3 @@ def draw_korea_map(target_data, blocked_map, cmapname):
     plt.tight_layout()
     plt.show()
 
-
-get_guname([], [])
